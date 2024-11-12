@@ -12,7 +12,6 @@ public class SO_Projectile : ScriptableObject
     {
         Throwable,
         Shootable,
-
     }
     public EProjType ProjectileType;
 

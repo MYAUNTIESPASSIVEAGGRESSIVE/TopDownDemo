@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerWeaponSelect : MonoBehaviour
 {
+    //Weapon Lists
     [Header("Melee Weapons")]
     public List<SO_Melee> Melees = new List<SO_Melee>();
 
@@ -13,6 +14,24 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     [Header("Projectile Weapons")]
     public List<SO_Projectile> Projectiles = new List<SO_Projectile>();
+
+
+    [Header("Weapon Inv Variables")]
+    //Gun Inv
+    public int MaxGunsInInv = 5;
+    public int GunsHolding = 0;
+    //Projectile Inv
+    public int MaxProjInInv = 5;
+    public int ProjectileHolding = 0;
+    //Melee inv
+    public int MaxMeleeInInv = 5;
+    public int MeleeHolding = 0;
+
+
+    [Header("Weapon ID Stats")]
+    public int CurrentGunID = -1;
+    public int CurrentMeleeID = -1;
+    public int CurrentProjID = -1;
 
     private void Update()
     {
@@ -24,13 +43,12 @@ public class PlayerWeaponSelect : MonoBehaviour
         // SwitchingWeapons
         SwitchingWeapon();
     }
-
-    private void ProjectileShooting()
+    private void GunShooting()
     {
         
     }
 
-    private void GunShooting()
+    private void ProjectileShooting()
     {
         
     }
@@ -39,8 +57,12 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
 
     }
+
     private void SwitchingWeapon()
     {
+        if (Input.GetKey(KeyCode.Tab))
+        {
 
+        }
     }
 }

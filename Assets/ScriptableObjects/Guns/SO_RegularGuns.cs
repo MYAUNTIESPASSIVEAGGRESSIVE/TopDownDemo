@@ -12,7 +12,7 @@ public class SO_RegularGuns : ScriptableObject
     {
         Single,
         Rapid,
-        Mini,
+        Charged,
     }
     public EFireType GunFireType;
 
