@@ -12,6 +12,7 @@ public class SO_RegularGuns : ScriptableObject
     {
         Single,
         Rapid,
+        Mini,
     }
     public EFireType GunFireType;
 
@@ -19,9 +20,13 @@ public class SO_RegularGuns : ScriptableObject
 
     public int ClipSize;
 
+    public int ShootCooldown;
+
     public int GunID;
 
     public int Damage;
+
+    public Sprite GunSprite;
 
     public GameObject BulletPrefab;
 }
