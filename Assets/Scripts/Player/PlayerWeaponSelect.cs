@@ -11,9 +11,14 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     [Header("Regular Guns")]
     public List<SO_RegularGuns> Guns = new List<SO_RegularGuns> ();
+    public List<int> GunAmmo = new List<int>();
+    public List<int> GunCurrentClip = new List<int>();
+
 
     [Header("Projectile Weapons")]
     public List<SO_Projectile> Projectiles = new List<SO_Projectile>();
+    public List<int> ProjAmmo = new List<int>();
+    public List<int> ProjCurrentClip = new List<int>();
 
 
     [Header("Weapon Inv Variables")]
@@ -33,6 +38,27 @@ public class PlayerWeaponSelect : MonoBehaviour
     public int CurrentMeleeID = -1;
     public int CurrentProjID = -1;
 
+    [Header("Other Gun Variables")]
+    public int ActiveGuns;
+
+    private void Start()
+    {
+        for (int i = 0; i < GunsHolding; i++)
+        {
+
+        }
+
+        for (int i = 0; i < ProjectileHolding; i++)
+        {
+
+        }
+
+        for (int i = 0; i < MeleeHolding; i++)
+        {
+
+        }
+    }
+
     private void Update()
     {
         // Attacking Functions
@@ -45,16 +71,22 @@ public class PlayerWeaponSelect : MonoBehaviour
     }
     private void GunShooting()
     {
-        
+        if (CurrentGunID == -1) return;
+
+
     }
 
     private void ProjectileShooting()
     {
-        
+        if (CurrentProjID == -1) return;
+
+
     }
 
     private void MeleeAttack()
     {
+        if (CurrentMeleeID == -1) return;
+
 
     }
 

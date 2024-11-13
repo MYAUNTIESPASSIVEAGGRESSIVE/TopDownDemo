@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour
 
         CharacterMove();
 
-        GunPointToCam();
+        GunPointToMouse();
     }
 
     private void CharacterMove()
@@ -41,15 +41,15 @@ public class PlayerControl : MonoBehaviour
         PlrRB.velocity = new Vector2(PlrMovementDir.x * MoveSpeed, PlrMovementDir.y * MoveSpeed);
     }
 
-    private void GunPointToCam()
+    private void GunPointToMouse()
     {
         aimPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         direction = aimPoint - transform.position;
 
-        ObjRot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        ObjRot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
-        transform.rotation = Quaternion.Euler(0, 0, ObjRot);
+        PlrRB.rotation = ObjRot;
     }
 
 
