@@ -55,7 +55,6 @@ public class PlayerWeaponSelect : MonoBehaviour
         MeleeHolding = MeleeHolder.transform.childCount;
 
 
-
         for (int i = 0; i < GunsHolding; i++)
         {
             GunHolder.transform.GetChild(i).gameObject.SetActive(false);
@@ -93,20 +92,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && GunCurrentClip[CurrentGunID] > 0)
         {
-            switch (Guns[CurrentGunID].GunFireType)
-            {
-                case SO_RegularGuns.EFireType.Rapid:
 
-                    if (CurrentGunID == 1) 
-                    {
-                        Instantiate(Guns[CurrentGunID].BulletPrefab);
-                    }
-                    break;
-
-                case SO_RegularGuns.EFireType.Single:
-
-                    break;
-            }
         }
 
         UpdateClip(CurrentGunID, false);

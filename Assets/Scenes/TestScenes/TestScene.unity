@@ -219,7 +219,6 @@ GameObject:
   - component: {fileID: 489428367}
   - component: {fileID: 489428364}
   - component: {fileID: 489428363}
-  - component: {fileID: 489428366}
   m_Layer: 0
   m_Name: TempPlayer
   m_TagString: Player
@@ -310,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlrRB: {fileID: 0}
-  PlayerWeapons: {fileID: 489428366}
+  PlayerWeapons: {fileID: 0}
   MoveSpeed: 5
 --- !u!50 &489428364
 Rigidbody2D:
@@ -339,39 +338,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &489428366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489428360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e83e9120ba01aa448bccc8d93433339e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GunHolder: {fileID: 802680574}
-  MeleeHolder: {fileID: 1992598230}
-  ProjHolder: {fileID: 2095918631}
-  PlayerScript: {fileID: 0}
-  Melees: []
-  Guns: []
-  GunAmmo: 
-  GunCurrentClip: 
-  Projectiles: []
-  ProjAmmo: 
-  ProjCurrentClip: 
-  MaxGunsInInv: 5
-  GunsHolding: 0
-  MaxProjInInv: 5
-  ProjectileHolding: 0
-  MaxMeleeInInv: 5
-  MeleeHolding: 0
-  CurrentGunID: -1
-  CurrentMeleeID: -1
-  CurrentProjID: -1
-  ActiveGuns: 0
 --- !u!61 &489428367
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -593,98 +559,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1666633098
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1666633099}
-  - component: {fileID: 1666633100}
-  - component: {fileID: 1666633101}
-  m_Layer: 0
-  m_Name: PickUpGunEmpty
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1666633099
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666633098}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.97, y: 2.34, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1666633100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666633098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e1077af83edfd84382e70eebb8f58a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GunPicker: {fileID: 11400000, guid: 7fab186ab41262040bc0ad56af53ad9c, type: 2}
-  GunClipOnPickup: 32
---- !u!61 &1666633101
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666633098}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &1992598230
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,4 +628,3 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 193146025}
   - {fileID: 489428362}
-  - {fileID: 1666633099}
