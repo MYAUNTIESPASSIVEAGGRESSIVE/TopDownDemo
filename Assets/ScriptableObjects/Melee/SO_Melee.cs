@@ -15,5 +15,5 @@ public class SO_Melee : ScriptableObject
 
     public int MeleeID;
 
-    public Sprite MeleeSprite;
+    public GameObject MeleePrefab;
 }

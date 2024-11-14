@@ -26,7 +26,7 @@ public class SO_RegularGuns : ScriptableObject
 
     public int Damage;
 
-    public Sprite GunSprite;
-
     public GameObject BulletPrefab;
+
+    public GameObject GunPrefab;
 }

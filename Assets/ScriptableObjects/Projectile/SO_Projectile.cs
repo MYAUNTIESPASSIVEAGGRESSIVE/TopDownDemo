@@ -24,7 +24,7 @@ public class SO_Projectile : ScriptableObject
 
     public int ProjID;
 
-    public Sprite ProjSprite;
+    public GameObject ProjBulletPrefab;
 
     public GameObject ProjPrefab;
 }
