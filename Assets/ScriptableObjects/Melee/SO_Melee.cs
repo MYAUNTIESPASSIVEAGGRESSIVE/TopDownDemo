@@ -8,12 +8,13 @@ public class SO_Melee : ScriptableObject
 
     [Range(0f, 15f)]
     public float AOERange;
-
     public float Cooldown;
 
     public int Damage;
-
     public int MeleeID;
+
+    public AudioClip MeleeAudio;
+    public AudioSource MeleeSource;
 
     public GameObject MeleePrefab;
 }

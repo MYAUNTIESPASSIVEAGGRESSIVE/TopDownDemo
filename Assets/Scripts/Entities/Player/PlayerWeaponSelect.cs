@@ -92,7 +92,8 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && GunCurrentClip[CurrentGunID] > 0)
         {
-
+            Guns[CurrentGunID].GunPrefab.GetComponent<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
+            --GunCurrentClip[CurrentGunID];
         }
 
         UpdateClip(CurrentGunID, false);

@@ -8,23 +8,15 @@ public class SO_Projectile : ScriptableObject
     public string ProjectileName;
     public string ProjectileDescription;
 
-    public enum EProjType
-    {
-        Throwable,
-        Shootable,
-    }
-    public EProjType ProjectileType;
-
     [Range(0f, 15f)]
     public float AOERange;
-
     public float Cooldown;
-
     public int Damage;
-
     public int ProjID;
 
-    public GameObject ProjBulletPrefab;
+    public AudioClip ProjAudio;
+    public AudioSource ProjSource;
 
+    public GameObject ProjBulletPrefab;
     public GameObject ProjPrefab;
 }

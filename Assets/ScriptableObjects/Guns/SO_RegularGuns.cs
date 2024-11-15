@@ -8,25 +8,16 @@ public class SO_RegularGuns : ScriptableObject
     public string GunName;
     public string GunDescription;
 
-    public enum EFireType
-    {
-        Single,
-        Rapid,
-        Charged,
-    }
-    public EFireType GunFireType;
-
     public int FireRate;
-
     public int ClipSize;
-
+    public int BulletsShotPerClick;
     public int ShootCooldown;
-
     public int GunID;
-
     public int Damage;
 
-    public GameObject BulletPrefab;
+    public AudioClip ShootAudio;
+    public AudioSource ShootSource;
 
+    public GameObject BulletPrefab;
     public GameObject GunPrefab;
 }
