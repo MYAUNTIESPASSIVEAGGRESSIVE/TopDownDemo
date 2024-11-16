@@ -313,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlrRB: {fileID: 0}
   PlayerWeapons: {fileID: 0}
-  MoveSpeed: 5
+  MoveSpeed: 7
 --- !u!50 &489428364
 Rigidbody2D:
   serializedVersion: 4
@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4410002332800337214, guid: 1c94bd6d6bea8c94f8a84afd2a48affc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6890009725063093962, guid: 1c94bd6d6bea8c94f8a84afd2a48affc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 1872155892}
   - component: {fileID: 1872155891}
   - component: {fileID: 1872155894}
-  - component: {fileID: 1872155893}
+  - component: {fileID: 1872155895}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -769,28 +769,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &1872155893
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872155890}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!58 &1872155894
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -826,6 +804,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1872155895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872155890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3824e23a0cd078842b1ed4fd42ced969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 50
+  DEF: 1
+  DmgRedPerPt: 0.05
+  Target: {fileID: 489428360}
+  EnemyDamage: 15
+  EnemySpeed: 5
+  EnemyAttackRange: 1
 --- !u!1 &1951659566
 GameObject:
   m_ObjectHideFlags: 0
