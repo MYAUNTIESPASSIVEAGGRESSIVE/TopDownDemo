@@ -15,7 +15,7 @@ public class SO_RegularGuns : ScriptableObject
     public int GunID;
     public int Damage;
 
-    public AudioClip ShootAudio;
+    public AudioClip[] ShootAudio;
     public AudioSource ShootSource;
 
     public GameObject BulletPrefab;

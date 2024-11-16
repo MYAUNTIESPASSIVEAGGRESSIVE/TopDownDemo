@@ -35,10 +35,13 @@ public class Weapons : MonoBehaviour
         }
     }
 
-    public virtual void PlayShotAudio(AudioClip ShootSound, AudioSource audioSource)
+    public virtual void PlayShotAudio(AudioClip[] ShootSound, AudioSource audioSource)
     {
-        audioSource.PlayOneShot(ShootSound);
+        //audioSource.PlayOneShot();
     }
 
-
+    public virtual void PlayReloadAudio(AudioClip ReloadSound, AudioSource audioSource)
+    {
+        //audioSource.PlayOneShot(ShootSound);
+    }
 }

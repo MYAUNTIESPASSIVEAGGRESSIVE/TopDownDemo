@@ -15,6 +15,9 @@ public class PlayerStats : EntityStats
 
         CurrentHealth = 0;
 
+        transform.GetComponent<PlayerControl>().enabled = false;
+        transform.GetComponent<PlayerWeaponSelect>().enabled = false;
+        IsDead = true;
 
     }
 }

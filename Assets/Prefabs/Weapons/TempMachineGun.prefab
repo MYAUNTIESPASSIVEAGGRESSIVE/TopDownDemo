@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6890009725063093962}
   - component: {fileID: 4000551416205377322}
+  - component: {fileID: 9097470535116013318}
   m_Layer: 0
   m_Name: TempMachineGun
   m_TagString: GunWeapon
@@ -57,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 4410002332800337214}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: -2.2565844, y: 2.9276564, z: 0}
   m_LocalScale: {x: 0.2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -116,3 +117,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9097470535116013318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4410002332800337214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c305d72d1d9fed14e92fce79996c2b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Muzzle: {fileID: 4270729470083630512}

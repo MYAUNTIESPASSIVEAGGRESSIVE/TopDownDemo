@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerWeaponSelect : MonoBehaviour
@@ -135,8 +132,6 @@ public class PlayerWeaponSelect : MonoBehaviour
                 break;
             }
 
-
-            // If I am on the last gun, start over.
             if (TempID == GunsHolding - 1)
             {
                 TempID = 0;
@@ -148,7 +143,6 @@ public class PlayerWeaponSelect : MonoBehaviour
 
             if (GunAmmo[TempID] >= 0)
             {
-                //I actually have that gun!!!
                 CurrentGunID = TempID;
                 GunHolder.transform.GetChild(OriginalID).gameObject.SetActive(false);
                 GunHolder.transform.GetChild(TempID).gameObject.SetActive(true);

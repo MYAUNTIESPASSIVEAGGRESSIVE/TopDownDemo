@@ -9,5 +9,14 @@ public class EnemyStats : EntityStats
         base.Start();
     }
 
+    protected override void DeathLogic()
+    {
+        if (IsDead) return;
 
+        CurrentHealth = 0;
+
+
+        IsDead = true;
+
+    }
 }

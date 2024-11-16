@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponPickUp : MonoBehaviour
@@ -14,12 +12,10 @@ public class WeaponPickUp : MonoBehaviour
         PickUpEmpty.transform.SetParent(gameObject.transform);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("FJFJJF");
-
             gameObject.SetActive(false);
 
             PlayerWeaponSelect PlayerGun = other.GetComponent<PlayerWeaponSelect>();
@@ -42,7 +38,7 @@ public class WeaponPickUp : MonoBehaviour
             PlayerGun.GunAmmo[GunPicker.GunID] += GunClipOnPickup;
 
             PlayerGun.UpdateClip(GunPicker.GunID, true);
-
+           
         }
     }
 }
