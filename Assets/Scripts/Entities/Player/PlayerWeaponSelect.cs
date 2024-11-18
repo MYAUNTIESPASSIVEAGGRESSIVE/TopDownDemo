@@ -47,34 +47,12 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void Start()
     {
-        GunsHolding = GunHolder.transform.childCount;
-        ProjectileHolding = ProjHolder.transform.childCount;
-        MeleeHolding = MeleeHolder.transform.childCount;
-
-
-        for (int i = 0; i < GunsHolding; i++)
-        {
-            GunHolder.transform.GetChild(i).gameObject.SetActive(false);
-            GunAmmo.Add(-1);
-            Guns.Add(null);
-            GunCurrentClip.Add(-1);
-        }
-
-        for (int i = 0; i < ProjectileHolding; i++)
-        {
-
-        }
-
-        for (int i = 0; i < MeleeHolding; i++)
-        {
-
-        }
-
         PlayerScript = gameObject.GetComponent<PlayerControl>();
     }
 
     private void Update()
     {
+
         // Attacking Functions
         MeleeAttack();
         GunShooting();
@@ -153,6 +131,30 @@ public class PlayerWeaponSelect : MonoBehaviour
         }
 
 
+    }
+
+    public void WeaponAdded(SO_RegularGuns GunType)
+    {
+        GunsHolding = GunHolder.transform.childCount;
+        ProjectileHolding = ProjHolder.transform.childCount;
+        MeleeHolding = MeleeHolder.transform.childCount;
+
+        for (int i = 0; i < GunsHolding; i++)
+        {
+            GunAmmo.Add(-1);
+            Guns.Add(GunType);
+            GunCurrentClip.Add(-1);
+        }
+
+        for (int i = 0; i < ProjectileHolding; i++)
+        {
+
+        }
+
+        for (int i = 0; i < MeleeHolding; i++)
+        {
+
+        }
     }
 
     internal void UpdateClip(int TempID, bool Max)

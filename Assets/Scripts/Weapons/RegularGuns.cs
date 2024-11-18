@@ -6,8 +6,8 @@ public class RegularGuns : Weapons
 
     public override void ShootingGun(SO_RegularGuns SOGun)
     {
-        SpawnBullets(SOGun.BulletPrefab, Muzzle.transform, SOGun.BulletsShotPerClick);
+        base.SpawnBullets(SOGun.BulletPrefab, Muzzle.transform, SOGun.BulletsShotPerClick);
 
-        PlayShotAudio(SOGun.ShootAudio, SOGun.ShootSource);
+        base.PlayShotAudio(SOGun.ShootAudio, SOGun.ShootSource);
     }
 }

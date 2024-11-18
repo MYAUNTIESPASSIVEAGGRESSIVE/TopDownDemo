@@ -9,6 +9,13 @@ public class PlayerStats : EntityStats
         base.Start();
     }
 
+    public override void TakeDmg(float Dmg)
+    {
+        if (IsDead) return;
+
+        base.TakeDmg(Dmg);
+    }
+
     protected override void DeathLogic()
     {
         if (IsDead) return;
