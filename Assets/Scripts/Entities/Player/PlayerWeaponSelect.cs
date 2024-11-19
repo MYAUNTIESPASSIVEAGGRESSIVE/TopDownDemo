@@ -133,7 +133,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     }
 
-    public void WeaponAdded(SO_RegularGuns GunType)
+    public void WeaponAdded(SO_RegularGuns GunType, int ReserveOnPickupSize)
     {
         GunsHolding = GunHolder.transform.childCount;
         ProjectileHolding = ProjHolder.transform.childCount;
@@ -141,9 +141,9 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         for (int i = 0; i < GunsHolding; i++)
         {
-            GunAmmo.Add(-1);
+            GunAmmo.Add(ReserveOnPickupSize);
             Guns.Add(GunType);
-            GunCurrentClip.Add(-1);
+            GunCurrentClip.Add(GunType.ClipSize);
         }
 
         for (int i = 0; i < ProjectileHolding; i++)

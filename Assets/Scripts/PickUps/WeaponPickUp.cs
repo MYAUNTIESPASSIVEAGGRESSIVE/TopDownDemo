@@ -4,6 +4,7 @@ public class WeaponPickUp : MonoBehaviour
 {
     public SO_RegularGuns GunPicker;
     public int GunClipOnPickup = 32;
+    public int ReserveOnPickup = 100;
 
     private Transform MousePos;
 
@@ -26,9 +27,9 @@ public class WeaponPickUp : MonoBehaviour
             {
                 PlayerGun.CurrentGunID = GunPicker.GunID;
                 Instantiate(GunPicker.GunPrefab, PlayerGun.GunHolder.transform.position,
-                    Quaternion.Euler(GunPicker.GunPrefab.transform.forward), PlayerGun.GunHolder.transform);
-                //PlayerGun.GunCurrentClip[GunPicker.GunID] = GunPicker.ClipSize;
-                PlayerGun.WeaponAdded(GunPicker);
+                    Quaternion.Euler(Vector3.right), PlayerGun.GunHolder.transform);
+                PlayerGun.WeaponAdded(GunPicker, ReserveOnPickup);
+                ++PlayerGun.ActiveGuns;
 
             }
 
