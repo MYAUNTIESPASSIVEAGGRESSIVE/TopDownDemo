@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerWeaponSelect : MonoBehaviour
 {
+
+    //fix and redo - maybe shrink to a single function and or SO and other stuff
+
     [Header("References")]
     public GameObject GunHolder;
     public GameObject MeleeHolder;
