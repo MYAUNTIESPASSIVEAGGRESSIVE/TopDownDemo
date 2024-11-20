@@ -4,7 +4,7 @@ public class RegularGuns : Weapons
 {
     public GameObject Muzzle;
 
-    public override void ShootingGun(SO_RegularGuns SOGun)
+    public void ShootingGun(SO_RegularGuns SOGun)
     {
         base.SpawnBullets(SOGun.BulletPrefab, Muzzle.transform, SOGun.BulletsShotPerClick);
 

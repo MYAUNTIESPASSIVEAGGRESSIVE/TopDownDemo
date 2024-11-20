@@ -7,9 +7,7 @@ public class PlayerWeaponSelect : MonoBehaviour
     //fix and redo - maybe shrink to a single function and or SO and other stuff
 
     [Header("References")]
-    public GameObject GunHolder;
-    public GameObject MeleeHolder;
-    public GameObject ProjHolder;
+    public GameObject WeaponHolder;
     public PlayerControl PlayerScript;
 
     //Weapon Lists
@@ -18,25 +16,16 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     [Header("Regular Guns")]
     public List<SO_RegularGuns> Guns = new List<SO_RegularGuns> ();
-    public List<int> GunAmmo = new List<int>();
-    public List<int> GunCurrentClip = new List<int>();
-
 
     [Header("Projectile Weapons")]
     public List<SO_Projectile> Projectiles = new List<SO_Projectile>();
-    public List<int> ProjAmmo = new List<int>();
-    public List<int> ProjCurrentClip = new List<int>();
-
 
     [Header("Weapon Inv Variables")]
     //Gun Inv
-    public int MaxGunsInInv = 5;
     public int GunsHolding = 0;
     //Projectile Inv
-    public int MaxProjInInv = 5;
     public int ProjectileHolding = 0;
     //Melee inv
-    public int MaxMeleeInInv = 5;
     public int MeleeHolding = 0;
 
 
@@ -55,98 +44,27 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void Update()
     {
-
-        // Attacking Functions
-        MeleeAttack();
-        GunShooting();
-        ProjectileShooting();
-
-        // SwitchingWeapons
-        SwitchingWeapon();
+        HandleWeaponsShooting();
     }
-    private void GunShooting()
-    {
-        if (CurrentGunID == -1) return;
 
-        if (Input.GetMouseButtonDown(0) && GunCurrentClip[CurrentGunID] > 0)
+    private void HandleWeaponsShooting()
+    {
+        if (Input.GetMouseButtonDown(0)) 
         {
-            Guns[CurrentGunID].GunPrefab.GetComponent<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
-            --GunCurrentClip[CurrentGunID];
-        }
-
-        UpdateClip(CurrentGunID, false);
-    }
-
-    private void ProjectileShooting()
-    {
-        if (CurrentProjID == -1) return;
-
-
-    }
-
-    private void MeleeAttack()
-    {
-        if (CurrentMeleeID == -1) return;
-
-
-    }
-
-    private void SwitchingWeapon()
-    {
-        if (Input.GetKey(KeyCode.Tab))
-        {
-            SwitchGun();
-        }
-    }
-
-    private void SwitchGun()
-    {
-        int OriginalID = CurrentGunID;
-        int TempID = CurrentGunID;
-        int Loops = 0;
-
-        while (true)
-        {
-            ++Loops;
-            if (Loops > 1000)
-            {
-                break;
-            }
-
-            if (TempID == GunsHolding - 1)
-            {
-                TempID = 0;
-            }
-            else
-            {
-                ++TempID;
-            }
-
-            if (GunAmmo[TempID] >= 0)
-            {
-                CurrentGunID = TempID;
-                GunHolder.transform.GetChild(OriginalID).gameObject.SetActive(false);
-                GunHolder.transform.GetChild(TempID).gameObject.SetActive(true);
-                UpdateClip(TempID, false);
-                break;
-            }
 
         }
 
-
     }
 
-    public void WeaponAdded(SO_RegularGuns GunType, int ReserveOnPickupSize)
+    public void WeaponAdded(SO_RegularGuns GunType)
     {
-        GunsHolding = GunHolder.transform.childCount;
-        ProjectileHolding = ProjHolder.transform.childCount;
-        MeleeHolding = MeleeHolder.transform.childCount;
+        GunsHolding = WeaponHolder.transform.childCount;
+        ProjectileHolding = WeaponHolder.transform.childCount;
+        MeleeHolding = WeaponHolder.transform.childCount;
 
         for (int i = 0; i < GunsHolding; i++)
         {
-            GunAmmo.Add(ReserveOnPickupSize);
             Guns.Add(GunType);
-            GunCurrentClip.Add(GunType.ClipSize);
         }
 
         for (int i = 0; i < ProjectileHolding; i++)
@@ -158,11 +76,5 @@ public class PlayerWeaponSelect : MonoBehaviour
         {
 
         }
-    }
-
-    internal void UpdateClip(int TempID, bool Max)
-    {
-        if (Max)
-            GunCurrentClip[TempID] = Guns[TempID].ClipSize;
     }
 }

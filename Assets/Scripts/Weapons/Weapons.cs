@@ -1,30 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Weapons : MonoBehaviour
 {
     private PlayerWeaponSelect WeaponSelectScript;
 
+    private bool HoldingGun = false;
+    private bool HoldingProj = false;
+    private bool HoldingMelee = false;
+
     private void Start()
     {
         WeaponSelectScript = transform.GetComponent<PlayerWeaponSelect>();
-    }
-
-
-    public virtual void ShootingGun(SO_RegularGuns SOGun)
-    {
-        
-    }
-
-    public virtual void ShootingProj(SO_Projectile SOProj)
-    {
-
-    }
-
-    public virtual void MeleeAttacking(SO_Melee SOMelee)
-    {
-
     }
 
     public virtual void SpawnBullets(GameObject Bullet, Transform Weapon, int BulletCount)
