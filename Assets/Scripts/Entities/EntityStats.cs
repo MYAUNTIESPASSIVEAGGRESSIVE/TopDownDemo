@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EntityStats : MonoBehaviour
 {
     protected CircleCollider2D EntityCol;
     protected Animator EntityAnim;
+    protected Rigidbody2D EntityRB;
 
     public float MaxHealth;
     protected float CurrentHealth;
@@ -20,6 +20,7 @@ public class EntityStats : MonoBehaviour
     {
         TryGetComponent(out EntityCol);
         TryGetComponent(out EntityAnim);
+        TryGetComponent(out EntityRB);
 
         CurrentHealth = MaxHealth;
     }

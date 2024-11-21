@@ -1,36 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class Weapons : MonoBehaviour
 {
     private PlayerWeaponSelect WeaponSelectScript;
 
-    private bool HoldingGun = false;
-    private bool HoldingProj = false;
-    private bool HoldingMelee = false;
+    //private bool HoldingGun = false;
+    //private bool HoldingProj = false;
+    //private bool HoldingMelee = false;
 
     private void Start()
     {
         WeaponSelectScript = transform.GetComponent<PlayerWeaponSelect>();
     }
 
-    public virtual void SpawnBullets(GameObject Bullet, Transform Weapon, int BulletCount)
+    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, float AnglePerShot, int Speed)
     {
         for (int i = 0; i < BulletCount; i++)
         {
             Instantiate(Bullet, Weapon);
+            Bullet.AddComponent<Rigidbody2D>();
+            Bullet.GetComponent<Rigidbody2D>().gravityScale = 0;
+            Bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * Speed * Time.deltaTime;
+
+
         }
     }
 
     public virtual void PlayShotAudio(AudioClip[] ShootSound, AudioSource audioSource)
     {
-        //audioSource.PlayOneShot();
+        int MaxClipAmmount = ShootSound.Length;
+
+        audioSource.PlayOneShot(ShootSound[Random.Range(0, MaxClipAmmount)]);
     }
 
     public virtual void PlayReloadAudio(AudioClip ReloadSound, AudioSource audioSource)
     {
-        //audioSource.PlayOneShot(ShootSound);
+        audioSource.PlayOneShot(ReloadSound);
     }
 }

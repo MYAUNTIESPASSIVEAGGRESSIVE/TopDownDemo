@@ -12,8 +12,9 @@ public class SO_Melee : ScriptableObject
 
     public int Damage;
     public int MeleeID;
+    public int ShotAmount;
 
-    public AudioClip MeleeAudio;
+    public AudioClip[] MeleeAudio;
     public AudioSource MeleeSource;
 
     public GameObject MeleePrefab;

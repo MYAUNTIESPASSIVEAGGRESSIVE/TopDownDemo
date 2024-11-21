@@ -6,7 +6,7 @@ public class RegularGuns : Weapons
 
     public void ShootingGun(SO_RegularGuns SOGun)
     {
-        base.SpawnBullets(SOGun.BulletPrefab, Muzzle.transform, SOGun.BulletsShotPerClick);
+        base.UseWeapon(SOGun.BulletPrefab, Muzzle.transform, SOGun.BulletsShotPerClick, SOGun.AnglePerShot, SOGun.ShotSpeed);
 
         base.PlayShotAudio(SOGun.ShootAudio, SOGun.ShootSource);
     }
