@@ -22,6 +22,7 @@ public class SO_RegularGuns : ScriptableObject
     public int ClipSize;
     public int BulletsShotPerClick;
     public int ShotSpeed;
+    public float ShotDistance;
 
     // For Charge/Overheat Mechanic
     public bool Overheatable;

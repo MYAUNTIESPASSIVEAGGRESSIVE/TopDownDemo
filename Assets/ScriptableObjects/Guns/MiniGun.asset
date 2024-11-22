@@ -14,11 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunName: Mini Gun
   GunDescription: 'Mini Gun That Rapid fires and Has '
-  GunFireType: 2
+  GShootType: 2
   FireRate: 20
   ClipSize: 200
+  BulletsShotPerClick: 0
+  ShotSpeed: 0
+  ShotDistance: 0
+  Overheatable: 0
+  TimeToShoot: 0
+  MaxTimeToHeat: 0
   ShootCooldown: 5
   GunID: 2
   Damage: 2
-  GunSprite: {fileID: 0}
+  AnglePerShot: 0
+  ShootAudio: []
+  ShootSource: {fileID: 0}
   BulletPrefab: {fileID: 0}
+  GunPrefab: {fileID: 0}

@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileGuns : MonoBehaviour
+public class ProjectileGuns : Weapons
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Muzzle;
+
+    public void ProjectileThrow(SO_Projectile SOProj, float ShootDistanceMult)
     {
-        
+        base.UseWeapon(SOProj.ProjBulletPrefab, Muzzle.transform, SOProj.ProjPerShot, 0, SOProj.ShotSpeed, ShootDistanceMult);
+
+        base.PlayShotAudio(SOProj.ProjAudio, SOProj.ProjSource);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void ProjectileShoot(SO_Projectile SOProj, float ShootDistanceMult)
     {
-        
+        base.UseWeapon(SOProj.ProjBulletPrefab, Muzzle.transform, SOProj.ProjPerShot, 0, SOProj.ShotSpeed, ShootDistanceMult);
+
+        base.PlayShotAudio(SOProj.ProjAudio, SOProj.ProjSource);
     }
 }

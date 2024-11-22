@@ -13,7 +13,12 @@ public class Weapons : MonoBehaviour
         WeaponSelectScript = transform.GetComponent<PlayerWeaponSelect>();
     }
 
-    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, float AnglePerShot, int Speed)
+    public virtual void Update()
+    {
+
+    }
+
+    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, float AnglePerShot, int Speed, float ShootDistance)
     {
         for (int i = 0; i < BulletCount; i++)
         {

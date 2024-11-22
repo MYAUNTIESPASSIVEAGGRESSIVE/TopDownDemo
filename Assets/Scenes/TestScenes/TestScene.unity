@@ -818,7 +818,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -904,6 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponHolder: {fileID: 802680574}
   PlayerScript: {fileID: 0}
+  GameMaxShootDistance: 0
   Melees: []
   Guns: []
   Projectiles: []
@@ -2039,8 +2040,8 @@ Transform:
   m_GameObject: {fileID: 897590130}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.261, y: 2.081954, z: 1}
+  m_LocalPosition: {x: 0.003, y: -0.052, z: 0}
+  m_LocalScale: {x: 1.2677608, y: 2.2811787, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 489428362}
@@ -3369,6 +3370,7 @@ MonoBehaviour:
   MaxHealth: 50
   DEF: 1
   DmgRedPerPt: 0.05
+  EnemyRB: {fileID: 0}
   EnemyDamage: 15
   EnemySpeed: 5
   EnemyAttackRange: 1

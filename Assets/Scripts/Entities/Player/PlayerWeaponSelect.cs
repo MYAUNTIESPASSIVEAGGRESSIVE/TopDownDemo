@@ -6,6 +6,7 @@ public class PlayerWeaponSelect : MonoBehaviour
     [Header("References")]
     public GameObject WeaponHolder;
     public PlayerControl PlayerScript;
+    public float GameMaxShootDistance;
 
     //Weapon Lists
     [Header("Melee Weapons")]
@@ -38,15 +39,13 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private GameObject WeaponHeld;
 
-    private string WeaponName;
-
     private bool HoldToShoot;
-    private bool Charging;
+    private bool ChargingShot;
+    private bool ChargingThrow;
     private float CurrentTimer;
     private float CurrentHeater;
     private int CurChargeTime;
-
-
+    private bool HoldToUse;
 
     private void Start()
     {
@@ -55,8 +54,12 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void Update()
     {
-        HandleGunShooting();
-
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleGunShooting();
+            HandleMeleeUse();
+            HandleProjShooting();
+        }
 
 
         HandleWeaponSwitching();
@@ -65,7 +68,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void HandleGunShooting()
     {
-        if (Input.GetMouseButtonDown(0) && GunClipCurrent[CurrentGunID] > 0)
+        if (GunClipCurrent[CurrentGunID] > 0)
         {
             switch (Guns[CurrentGunID].GShootType)
             {
@@ -85,8 +88,6 @@ public class PlayerWeaponSelect : MonoBehaviour
                     }
                     break;
             }
-            //WeaponHeld.GetComponent<ProjectileGuns>().ShootingGun(Guns[CurrentProjID]);
-            //WeaponHeld.GetComponent<MeleeWeapons>().ShootingGun(Guns[CurrentMeleeID]);
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -132,6 +133,146 @@ public class PlayerWeaponSelect : MonoBehaviour
         }
     }
 
+    private void HandleMeleeUse()
+    {
+        switch (Melees[CurrentMeleeID].EMeleeType)
+        {
+            case SO_Melee.MeleeUseType.Single:
+                WeaponHeld.GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+                break;
+            case SO_Melee.MeleeUseType.Hold:
+                HoldToUse = true;
+                break;
+        }
+
+        if (HoldToUse)
+        {
+            float useRate = Melees[CurrentMeleeID].UseSpeed;
+
+            CurrentTimer += Time.deltaTime;
+
+            if (CurrentTimer > useRate)
+            {
+                WeaponHeld.GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+                CurrentTimer = 0;
+            }
+        }
+        else HoldToUse = false;
+    }
+
+    private void HandleProjShooting()
+    {
+        if (ProjCurrent[CurrentProjID] > 0)
+        {
+            switch (Projectiles[CurrentProjID].EProjType)
+            {
+                case SO_Projectile.ProjType.Shootable:
+                    ProjectileShooting();
+                    break;
+
+                case SO_Projectile.ProjType.Throwable:
+                    ProjectileThrowing();
+                    break;
+            }
+        }
+    }
+
+    private void ProjectileShooting()
+    {
+        switch (Projectiles[CurrentProjID].EProjUse)
+        {
+            case SO_Projectile.ProjUseType.Single:
+                WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
+                break;
+            case SO_Projectile.ProjUseType.Charge:
+                ChargingShot = true;
+                break;
+        }
+
+        if (ChargingShot)
+        {
+            int ChargeTime = Projectiles[CurrentProjID].TimeToUse;
+            float ShotDist = Projectiles[CurrentProjID].ShootDistance;
+            float CurrentShotDist;
+
+            CurrentTimer += Time.deltaTime;
+            if (CurChargeTime > ChargeTime)
+            {
+                CurrentShotDist = ShotDist + 2f;
+                ChargingShot = false;
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    float MaxShotDistance = CurrentShotDist;
+
+                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
+                }
+                else if (CurrentShotDist >= GameMaxShootDistance)
+                {
+                    float MaxShotDistance = CurrentShotDist;
+
+                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
+                }
+            }
+        }
+        else ChargingShot = false;
+    }
+
+    private void ProjectileThrowing()
+    {
+        switch (Projectiles[CurrentProjID].EProjUse)
+        {
+            case SO_Projectile.ProjUseType.Single:
+                WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
+                break;
+            case SO_Projectile.ProjUseType.Charge:
+                ChargingShot = true;
+                break;
+        }
+
+        if (ChargingShot)
+        {
+            int ChargeTime = Projectiles[CurrentProjID].TimeToUse;
+            float ShotDist = Projectiles[CurrentProjID].ShootDistance;
+            float CurrentShotDist;
+
+            CurrentTimer += Time.deltaTime;
+            if (CurChargeTime > ChargeTime)
+            {
+                CurrentShotDist = ShotDist + 2f;
+                ChargingShot = false;
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    float MaxShotDistance = CurrentShotDist;
+
+                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
+
+                    ChargingShot = false;
+                }
+                else if (CurrentShotDist >= GameMaxShootDistance)
+                {
+                    float MaxShotDistance = CurrentShotDist;
+
+                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
+
+                    ChargingShot = false;
+                }
+            }
+        }
+        else ChargingShot = false;
+    }
+
+    private void HandleWeaponSwitching()
+    {
+
+    }
+
+    private void HandleWeaponReloading()
+    {
+
+    }
+
     public void WeaponAdded(SO_RegularGuns GunType)
     {
         GunsHolding = WeaponHolder.transform.childCount;
@@ -152,15 +293,5 @@ public class PlayerWeaponSelect : MonoBehaviour
         {
 
         }
-    }
-
-    private void HandleWeaponSwitching()
-    {
-
-    }
-
-    private void HandleWeaponReloading()
-    {
-
     }
 }

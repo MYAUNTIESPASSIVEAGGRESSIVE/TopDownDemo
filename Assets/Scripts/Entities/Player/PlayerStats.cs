@@ -9,14 +9,14 @@ public class PlayerStats : EntityStats
         base.Start();
     }
 
-    public override void TakeDmg(float Dmg)
+    public override void TakeDamage(float Dmg)
     {
         if (IsDead) return;
 
-        base.TakeDmg(Dmg);
+        base.TakeDamage(Dmg);
     }
 
-    protected override void DeathLogic()
+    protected override void EntityDeath()
     {
         if (IsDead) return;
 

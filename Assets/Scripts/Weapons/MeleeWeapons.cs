@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MeleeWeapons : Weapons
 {
-
-    public void MeleUse(SO_Melee SOMelee, bool ShootOut)
+    public void MeleeUse(SO_Melee SOMelee, bool ShootOut)
     {
         if (!ShootOut)
         {

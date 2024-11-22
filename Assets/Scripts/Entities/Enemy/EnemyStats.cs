@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyStats : EntityStats
 {
     [Header("Enemy Variables")]
+    public Rigidbody2D EnemyRB;
     public float EnemyDamage = 15f;
     public float EnemySpeed = 5f;
     public float EnemyAttackRange = 1f;
@@ -21,33 +22,29 @@ public class EnemyStats : EntityStats
     {
         base.Start();
 
+        EnemyRB = GetComponent<Rigidbody2D>();
+
         //attackingTarget = false;
     }
 
     protected void Update()
     {
         EnemyMove();
-        EnemyLook();
     }
 
     private void EnemyMove()
     {
-
+           
     }
 
-    private void EnemyLook()
-    {
-
-    }
-
-    public override void TakeDmg(float Dmg)
+    public override void TakeDamage(float Dmg)
     {
         if (IsDead) return;
 
-        base.TakeDmg(Dmg);
+        base.TakeDamage(Dmg);
     }
 
-    protected override void DeathLogic()
+    protected override void EntityDeath()
     {
         if (IsDead) return;
 
