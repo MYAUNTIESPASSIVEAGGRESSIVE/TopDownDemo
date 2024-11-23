@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Regular Gun", menuName = "Weaponry/Regular Gun", order = 1)]
 public class SO_RegularGuns : ScriptableObject
 {
+    [Header("Gun Key Compontents")]
     public string GunName;
     public string GunDescription;
+    public int GunID;
+    public int Damage;
 
     public enum ShootingType
     {
@@ -15,30 +18,30 @@ public class SO_RegularGuns : ScriptableObject
         Charge,
 
     }
+    [Header("ShootType")]
     public ShootingType GShootType;
 
-    // Any Gun Specifics
+    [Header("GunSpecs")]
     public int FireRate;
     public int ClipSize;
+    public int ReserveSize;
+    public Vector2 ClipSizeOnPickup;
     public int BulletsShotPerClick;
     public int ShotSpeed;
     public float ShotDistance;
+    public float AnglePerShot;
 
-    // For Charge/Overheat Mechanic
+    [Header("For Heat/Charge")]
     public bool Overheatable;
     public int TimeToShoot;
     public float MaxTimeToHeat;
     public int ShootCooldown;
 
-
-    public int GunID;
-    public int Damage;
-
-    public float AnglePerShot;
-
+    [Header("Audio")]
     public AudioClip[] ShootAudio;
     public AudioSource ShootSource;
 
+    [Header("Prefabs")]
     public GameObject BulletPrefab;
     public GameObject GunPrefab;
 }

@@ -14,19 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunName: MachineGun
   GunDescription: Fast Rapid Fire Gun
+  GunID: 0
+  Damage: 3
   GShootType: 1
   FireRate: 5
   ClipSize: 32
+  ReserveSize: 160
+  ClipSizeOnPickup: {x: 32, y: 160}
   BulletsShotPerClick: 1
   ShotSpeed: 10
   ShotDistance: 50
+  AnglePerShot: 0
   Overheatable: 0
   TimeToShoot: 0
   MaxTimeToHeat: 0
   ShootCooldown: 0
-  GunID: 1
-  Damage: 3
-  AnglePerShot: 0
   ShootAudio:
   - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
   - {fileID: 8300000, guid: 3f8f7868b4e1685459eed1763da9a1ee, type: 3}

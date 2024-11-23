@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeleeName: Chainsaw
   MeleeDescription: Chainsaw
+  Damage: 10
+  MeleeID: 0
   EMeleeType: 1
   AOERange: 1
   Cooldown: 0
   KnockBackRange: 0.5
-  Damage: 10
-  MeleeID: 1
   ShotAmount: 0
   UseSpeed: 0
   ShootOut: 0

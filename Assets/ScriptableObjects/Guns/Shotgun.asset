@@ -14,11 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunName: Shotgun
   GunDescription: Shoots 3 slugs in 4 different directions
+  GunID: 2
+  Damage: 15
+  GShootType: 0
   FireRate: 1
   ClipSize: 5
+  ReserveSize: 0
   BulletsShotPerClick: 3
+  ShotSpeed: 0
+  ShotDistance: 0
+  AnglePerShot: 0
+  Overheatable: 0
+  TimeToShoot: 0
+  MaxTimeToHeat: 0
   ShootCooldown: 1
-  GunID: 3
-  Damage: 15
+  ShootAudio: []
+  ShootSource: {fileID: 0}
   BulletPrefab: {fileID: 0}
   GunPrefab: {fileID: 0}

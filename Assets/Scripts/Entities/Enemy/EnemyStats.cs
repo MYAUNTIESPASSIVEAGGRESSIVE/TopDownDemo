@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -29,12 +30,24 @@ public class EnemyStats : EntityStats
 
     protected void Update()
     {
+        EnemyLook();
         EnemyMove();
+    }
+
+    private void EnemyLook()
+    {
+        Vector3 lookpoint = Target.transform.position;
+
+        Vector3 direction = lookpoint - transform.position;
+
+        float ObjRot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+
+        EnemyRB.rotation = ObjRot;
     }
 
     private void EnemyMove()
     {
-           
+        EnemyRB.AddForce(transform.up * EnemySpeed, ForceMode2D.Force);
     }
 
     public override void TakeDamage(float Dmg)

@@ -46,7 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPicker: {fileID: 11400000, guid: 7fab186ab41262040bc0ad56af53ad9c, type: 2}
-  GunClipOnPickup: 25
+  ProjPicker: {fileID: 11400000, guid: fe25f3b40c7969a4bbc1341d05df047a, type: 2}
+  MeleePicker: {fileID: 11400000, guid: ec3c1f0506b906044bd0638e41fd9ff6, type: 2}
+  Holder: {fileID: 0}
+  MeleePickup: 0
+  ProjPickup: 0
+  GunPickup: 1
 --- !u!58 &1143841290066535267
 CircleCollider2D:
   m_ObjectHideFlags: 0
