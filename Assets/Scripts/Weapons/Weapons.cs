@@ -3,6 +3,7 @@ using UnityEngine;
 public class Weapons : MonoBehaviour
 {
     private PlayerWeaponSelect WeaponSelectScript;
+    private AudioSource audioSource;
 
     //private bool HoldingGun = false;
     //private bool HoldingProj = false;
@@ -11,6 +12,8 @@ public class Weapons : MonoBehaviour
     private void Start()
     {
         WeaponSelectScript = transform.GetComponent<PlayerWeaponSelect>();
+
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     public virtual void Update()
@@ -18,27 +21,28 @@ public class Weapons : MonoBehaviour
 
     }
 
-    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, float AnglePerShot, int Speed, float ShootDistance)
+    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, 
+        float AnglePerShot, int Speed, float ShootDistance, 
+        bool NonMoving, int Damage)
     {
         for (int i = 0; i < BulletCount; i++)
         {
-            Instantiate(Bullet, Weapon);
-            Bullet.AddComponent<Rigidbody2D>();
-            Bullet.GetComponent<Rigidbody2D>().gravityScale = 0;
-            Bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * Speed * Time.deltaTime;
+            Instantiate(Bullet, Weapon.position, Quaternion.identity);
 
-
+            Bullet.GetComponent<BulletScript>().NonMoving = NonMoving;
+            Bullet.GetComponent<BulletScript>().BulletDamage = Damage;
+            Bullet.GetComponent<BulletScript>().BulletSpeed = Speed;
         }
     }
 
-    public virtual void PlayShotAudio(AudioClip[] ShootSound, AudioSource audioSource)
+    public virtual void PlayShotAudio(AudioClip[] ShootSound)
     {
         int MaxClipAmmount = ShootSound.Length;
 
         audioSource.PlayOneShot(ShootSound[Random.Range(0, MaxClipAmmount)]);
     }
 
-    public virtual void PlayReloadAudio(AudioClip ReloadSound, AudioSource audioSource)
+    public virtual void PlayReloadAudio(AudioClip ReloadSound)
     {
         audioSource.PlayOneShot(ReloadSound);
     }

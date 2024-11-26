@@ -17,7 +17,7 @@ MonoBehaviour:
   GunID: 0
   Damage: 3
   GShootType: 1
-  FireRate: 5
+  FireRate: 0.4
   ClipSize: 32
   ReserveSize: 160
   ClipSizeOnPickup: {x: 32, y: 160}
@@ -25,6 +25,7 @@ MonoBehaviour:
   ShotSpeed: 10
   ShotDistance: 50
   AnglePerShot: 0
+  NonMoving: 0
   Overheatable: 0
   TimeToShoot: 0
   MaxTimeToHeat: 0
@@ -32,6 +33,5 @@ MonoBehaviour:
   ShootAudio:
   - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
   - {fileID: 8300000, guid: 3f8f7868b4e1685459eed1763da9a1ee, type: 3}
-  ShootSource: {fileID: 0}
   BulletPrefab: {fileID: 6927761944252849097, guid: dcb227b00f766d04ab20377f00a7622d, type: 3}
   GunPrefab: {fileID: 4410002332800337214, guid: 1c94bd6d6bea8c94f8a84afd2a48affc, type: 3}

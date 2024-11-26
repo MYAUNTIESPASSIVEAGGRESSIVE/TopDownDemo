@@ -60,7 +60,6 @@ public class PlayerControl : MonoBehaviour
 
         if (CanDash && Input.GetKeyDown(KeyCode.LeftShift))
         {
-
             StartCoroutine(DashAbility(direction));
         }
     }

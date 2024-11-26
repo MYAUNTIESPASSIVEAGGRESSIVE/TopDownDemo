@@ -28,7 +28,6 @@ public class SO_Melee : ScriptableObject
 
     [Header("Melee Audio")]
     public AudioClip[] MeleeAudio;
-    public AudioSource MeleeSource;
 
     [Header("Melee Prefab")]
     public GameObject MeleePrefab;

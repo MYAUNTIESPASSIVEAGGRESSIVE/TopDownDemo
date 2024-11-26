@@ -30,5 +30,5 @@ MonoBehaviour:
   MaxReserveSize: 50
   ProjAudio: []
   ProjSource: {fileID: 0}
-  ProjBulletPrefab: {fileID: 0}
-  ProjPrefab: {fileID: 0}
+  ProjBulletPrefab: {fileID: 8664506871422696544, guid: 5eaeba259e3936c47a6a362bcf012c1b, type: 3}
+  ProjPrefab: {fileID: 8668388202287111594, guid: 27ae89fd6c6582241adf3b7ed0d8880f, type: 3}

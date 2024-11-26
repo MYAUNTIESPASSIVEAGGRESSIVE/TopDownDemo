@@ -44,7 +44,6 @@ public class SO_Projectile : ScriptableObject
 
     [Header("Proj Audio")]
     public AudioClip[] ProjAudio;
-    public AudioSource ProjSource;
 
     [Header("Proj Prefabs")]
     public GameObject ProjBulletPrefab;

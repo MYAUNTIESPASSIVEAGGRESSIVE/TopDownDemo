@@ -22,7 +22,7 @@ public class SO_RegularGuns : ScriptableObject
     public ShootingType GShootType;
 
     [Header("GunSpecs")]
-    public int FireRate;
+    public float FireRate;
     public int ClipSize;
     public int ReserveSize;
     public Vector2 ClipSizeOnPickup;
@@ -30,6 +30,7 @@ public class SO_RegularGuns : ScriptableObject
     public int ShotSpeed;
     public float ShotDistance;
     public float AnglePerShot;
+    public bool NonMoving;
 
     [Header("For Heat/Charge")]
     public bool Overheatable;
@@ -39,7 +40,6 @@ public class SO_RegularGuns : ScriptableObject
 
     [Header("Audio")]
     public AudioClip[] ShootAudio;
-    public AudioSource ShootSource;
 
     [Header("Prefabs")]
     public GameObject BulletPrefab;

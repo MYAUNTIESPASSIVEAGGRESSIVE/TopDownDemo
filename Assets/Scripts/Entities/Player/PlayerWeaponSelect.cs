@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.WSA;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerWeaponSelect : MonoBehaviour
@@ -45,11 +46,8 @@ public class PlayerWeaponSelect : MonoBehaviour
     public int CurrentMeleeID = -1;
     public int CurrentProjID = -1;
 
-    private GameObject WeaponHeld;
-
     private bool HoldToShoot;
     private bool ChargingShot;
-    private bool ChargingThrow;
     private float CurrentTimer;
     private float CurrentHeater;
     private int CurChargeTime;
@@ -91,40 +89,54 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        HandleGunShooting();
+        HandleMeleeUse();
+        HandleProjShooting();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            HandleGunShooting();
-            HandleMeleeUse();
-            HandleProjShooting();
+            HandleWeaponSwitching(CurrentGunID,GunHolder);
         }
 
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            HandleWeaponSwitching(CurrentMeleeID, MeleeHolder);
+        }
 
-        //HandleWeaponSwitching();
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            
+            HandleWeaponSwitching(CurrentProjID, ProjHolder);
+        }
     }
 
     private void HandleGunShooting()
     {
-        if (CurrentGunID == -1 || GunAmmo[CurrentGunID] <= 0) return;
+        if (CurrentGunID == -1) return;
 
-        if (GunClipCurrent[CurrentGunID] > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            switch (Guns[CurrentGunID].GShootType)
+            if (GunClipCurrent[CurrentGunID] > 0)
             {
-                case SO_RegularGuns.ShootingType.Single:
-                    WeaponHeld.GetComponent<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
-                    break;
+                Debug.Log("Shooting");
+                switch (Guns[CurrentGunID].GShootType)
+                {
+                    case SO_RegularGuns.ShootingType.Single:
+                        GunHolder.GetComponentInChildren<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
+                        break;
 
-                case SO_RegularGuns.ShootingType.Hold:
-                    HoldToShoot = true;
-                    break;
-                case SO_RegularGuns.ShootingType.Charge:
-                    int ChargeTime = Guns[CurrentGunID].TimeToShoot;
-                    CurrentTimer += Time.deltaTime;
-                    if (CurChargeTime > ChargeTime)
-                    {
+                    case SO_RegularGuns.ShootingType.Hold:
                         HoldToShoot = true;
-                    }
-                    break;
+                        break;
+                    case SO_RegularGuns.ShootingType.Charge:
+                        int ChargeTime = Guns[CurrentGunID].TimeToShoot;
+                        CurrentTimer += Time.deltaTime;
+                        if (CurChargeTime > ChargeTime)
+                        {
+                            HoldToShoot = true;
+                        }
+                        break;
+                }
             }
         }
 
@@ -140,19 +152,18 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (HoldToShoot) 
         {
+            float FireRate = Guns[CurrentGunID].FireRate;
+            bool Heated = Guns[CurrentGunID].Overheatable;
+            float HeatTimer = Guns[CurrentGunID].MaxTimeToHeat;
+
             if (GunClipCurrent[CurrentGunID] > 0)
             {
-                
-                float FireRate = Guns[CurrentGunID].FireRate;
-                bool Heated = Guns[CurrentGunID].Overheatable;
-                float HeatTimer = Guns[CurrentGunID].MaxTimeToHeat;
-
                 CurrentTimer += Time.deltaTime;
-
                 if (CurrentTimer > FireRate)
                 {
-                    WeaponHeld.GetComponent<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
+                    Debug.Log("SHoot BooletFFs");
                     --GunClipCurrent[CurrentGunID];
+                    GunHolder.GetComponentInChildren<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
                     CurrentTimer = 0;
                 }
 
@@ -181,14 +192,22 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
         if (CurrentMeleeID == -1) return;
 
-        switch (Melees[CurrentMeleeID].EMeleeType)
+        if (Input.GetMouseButtonDown(0))
         {
-            case SO_Melee.MeleeUseType.Single:
-                WeaponHeld.GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
-                break;
-            case SO_Melee.MeleeUseType.Hold:
-                HoldToUse = true;
-                break;
+            switch (Melees[CurrentMeleeID].EMeleeType)
+            {
+                case SO_Melee.MeleeUseType.Single:
+                    MeleeHolder.GetComponentInChildren<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+                    break;
+                case SO_Melee.MeleeUseType.Hold:
+                    HoldToUse = true;
+                    break;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            HoldToUse = false;
         }
 
         if (HoldToUse)
@@ -199,7 +218,8 @@ public class PlayerWeaponSelect : MonoBehaviour
 
             if (CurrentTimer > useRate)
             {
-                WeaponHeld.GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+                MeleeHolder.GetComponentInChildren<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+
                 CurrentTimer = 0;
             }
         }
@@ -210,18 +230,26 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
         if (CurrentMeleeID == -1 || ProjAmmo[CurrentProjID] <= 0) return;
 
-        if (ProjClipCurrent[CurrentProjID] > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            switch (Projectiles[CurrentProjID].EProjType)
+            if (ProjClipCurrent[CurrentProjID] > 0)
             {
-                case SO_Projectile.ProjType.Shootable:
-                    ProjectileShooting();
-                    break;
+                switch (Projectiles[CurrentProjID].EProjType)
+                {
+                    case SO_Projectile.ProjType.Shootable:
+                        ProjectileShooting();
+                        break;
 
-                case SO_Projectile.ProjType.Throwable:
-                    ProjectileThrowing();
-                    break;
+                    case SO_Projectile.ProjType.Throwable:
+                        ProjectileThrowing();
+                        break;
+                }
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            ChargingShot = false;
         }
 
         if (ProjClipCurrent[CurrentProjID] <= 0 && Input.GetKeyDown(KeyCode.R))
@@ -235,7 +263,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         switch (Projectiles[CurrentProjID].EProjUse)
         {
             case SO_Projectile.ProjUseType.Single:
-                WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
+                ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
                 --ProjClipCurrent[CurrentProjID];
                 break;
             case SO_Projectile.ProjUseType.Charge:
@@ -259,7 +287,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 {
                     float MaxShotDistance = CurrentShotDist;
 
-                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
+                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
                     --ProjClipCurrent[CurrentProjID];
 
                     ChargingShot = false;
@@ -268,7 +296,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 {
                     float MaxShotDistance = CurrentShotDist;
 
-                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
+                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
                     --ProjClipCurrent[CurrentProjID];
 
                     ChargingShot = false;
@@ -283,7 +311,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         switch (Projectiles[CurrentProjID].EProjUse)
         {
             case SO_Projectile.ProjUseType.Single:
-                WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
+                ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
                 --ProjClipCurrent[CurrentProjID];
                 break;
             case SO_Projectile.ProjUseType.Charge:
@@ -307,7 +335,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 {
                     float MaxShotDistance = CurrentShotDist;
 
-                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
+                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
                     --ProjClipCurrent[CurrentProjID];
                     ChargingShot = false;
                 }
@@ -315,7 +343,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 {
                     float MaxShotDistance = CurrentShotDist;
 
-                    WeaponHeld.GetComponent<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
+                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
                     --ProjClipCurrent[CurrentProjID];
                     ChargingShot = false;
                 }
@@ -328,11 +356,7 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
         if (CurrentGunID == -1 || CurrentMeleeID == -1 || CurrentProjID == -1) return;
 
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            UpdateInventory(WeaponID, Holder);
-        }
+        UpdateInventory(WeaponID, Holder);
     }
 
     private void UpdateInventory(int WeaponID, GameObject Holder)

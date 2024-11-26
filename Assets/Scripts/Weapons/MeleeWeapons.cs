@@ -15,6 +15,6 @@ public class MeleeWeapons : Weapons
 
         }
 
-        base.PlayShotAudio(SOMelee.MeleeAudio,SOMelee.MeleeSource);
+        //base.PlayShotAudio(SOMelee.MeleeAudio);
     }
 }
