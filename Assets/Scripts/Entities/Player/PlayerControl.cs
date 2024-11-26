@@ -18,7 +18,7 @@ public class PlayerControl : MonoBehaviour
     private float ObjRot;
 
     private Vector3 aimPoint;
-    private Vector3 direction;
+    public Vector3 direction;
 
     private bool CanDash = true;
     private float currentCoolTime;

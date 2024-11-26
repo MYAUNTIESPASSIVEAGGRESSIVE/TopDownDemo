@@ -25,18 +25,25 @@ public class EntityStats : MonoBehaviour
         CurrentHealth = MaxHealth;
     }
 
-    public virtual void TakeDamage(float Dmg)
+    public virtual void TakeDamage(float Dmg, bool GoryDeath)
     {
         CurrentHealth -= Dmg * (1 - (DEF * DmgRedPerPt));
 
         if (CurrentHealth <= 0)
         {
-            EntityDeath();
+            EntityDeath(GoryDeath);
         }
     }
 
-    protected virtual void EntityDeath()
+    protected virtual void EntityDeath(bool GoryDeath)
     {
-        
+        if (GoryDeath)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 }

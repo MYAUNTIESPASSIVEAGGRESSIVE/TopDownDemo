@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EnemyStats : EntityStats
@@ -12,8 +8,12 @@ public class EnemyStats : EntityStats
     public float EnemySpeed = 5f;
     public float EnemyAttackRange = 1f;
     public float EnemyDetectionRange = 10f;
+    public bool Converted;
 
     public GameObject Target;
+
+    public AudioClip[] EnemyHitSounds;
+    public AudioSource EnemySource;
     //public GameObject EnemyWeapon;
 
     private float distancetoTarget;
@@ -22,6 +22,8 @@ public class EnemyStats : EntityStats
     protected override void Start()
     {
         base.Start();
+
+        Converted = false;
 
         EnemyRB = GetComponent<Rigidbody2D>();
 
@@ -47,17 +49,27 @@ public class EnemyStats : EntityStats
 
     private void EnemyMove()
     {
-        EnemyRB.AddForce(transform.up * EnemySpeed, ForceMode2D.Force);
+        if(Vector2.Distance(transform.position, Target.transform.position) > EnemyAttackRange)
+        {
+            EnemyRB.AddForce(transform.up * EnemySpeed, ForceMode2D.Force);
+        }
+
+        if (Vector2.Distance(transform.position, Target.transform.position) < EnemyAttackRange) 
+        {
+            EnemyRB.velocity = Vector2.zero;
+        }
     }
 
-    public override void TakeDamage(float Dmg)
+    public override void TakeDamage(float Dmg, bool GoryDeath)
     {
         if (IsDead) return;
 
-        base.TakeDamage(Dmg);
+        base.TakeDamage(Dmg, GoryDeath);
+
+        EnemySource.PlayOneShot(EnemyHitSounds[Random.Range(0, EnemyHitSounds.Length)]);
     }
 
-    protected override void EntityDeath()
+    protected override void EntityDeath(bool GoryDeath)
     {
         if (IsDead) return;
 
@@ -66,9 +78,22 @@ public class EnemyStats : EntityStats
         IsDead = true;
     }
 
-    private void EnemyAttackTarget()
+    public void EnemyConversion()
     {
+        Converted = true;
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.CompareTag("Player"))
+        {
+            collision.transform.GetComponent<PlayerStats>().TakeDamage(EnemyDamage, false);
+        }
+
+        if(collision.transform.CompareTag("Enemy") && Converted)
+        {
+            collision.transform.GetComponent<EnemyStats>().TakeDamage(EnemyDamage, false);
+        }
     }
 
 }

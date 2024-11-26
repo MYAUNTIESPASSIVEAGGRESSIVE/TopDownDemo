@@ -25,7 +25,7 @@ public class MeleePickUp : MonoBehaviour
             if (PlayerGun.CurrentMeleeID == -1)
             {
                 PlayerGun.UpdateMeleeInv(MeleePicker);
-                ++PlayerGun.ActiveProjectiles;
+                ++PlayerGun.ActiveMelees;
                 PlayerGun.Melees[MeleePicker.MeleeID] = MeleePicker;
             }
         }

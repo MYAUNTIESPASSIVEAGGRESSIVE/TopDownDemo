@@ -3,13 +3,13 @@ using UnityEngine.UIElements;
 
 public class WeaponPickUp : MonoBehaviour
 {
-    public SO_RegularGuns GunPicker;
-
+    public SO_Weaponry GunPicker;
+    
     private void Start()
     {
         GameObject PickUpEmpty = null;
 
-        PickUpEmpty = Instantiate(GunPicker.GunPrefab, transform.position, Quaternion.identity);
+        PickUpEmpty = Instantiate(GunPicker.WeaponPrefab, transform.position, Quaternion.identity);
         PickUpEmpty.transform.SetParent(gameObject.transform);
     }
 
@@ -22,22 +22,23 @@ public class WeaponPickUp : MonoBehaviour
             gameObject.SetActive(false);
 
             //GunPickup Logic
-            if (PlayerGun.CurrentGunID == -1)
+            if (PlayerGun.CurrentWeaponID == -1)
             {
                 PlayerGun.UpdateGunInv(GunPicker);
             }
-            if (PlayerGun.GunAmmo[GunPicker.GunID] == -1)
+            if (PlayerGun.WeaponAmmo[GunPicker.WeaponID] == -1)
             {
-                PlayerGun.GunAmmo[GunPicker.GunID] = 0;
-                ++PlayerGun.ActiveGuns;
-                PlayerGun.Guns[GunPicker.GunID] = GunPicker;
+                PlayerGun.WeaponAmmo[GunPicker.WeaponID] = 0;
+                ++PlayerGun.ActiveWeapons;
+                PlayerGun.Weapons[GunPicker.WeaponID] = GunPicker;
             }
-            PlayerGun.GunAmmo[GunPicker.GunID] +=
+            PlayerGun.WeaponAmmo[GunPicker.WeaponID] +=
             (int)Random.Range(GunPicker.ClipSizeOnPickup.x,
                 GunPicker.ClipSizeOnPickup.y);
 
-            PlayerGun.HandleGunReloading(GunPicker.GunID, true);
+            PlayerGun.HandleGunReloading(GunPicker.WeaponID, true);
 
         }
     }
+    
 }

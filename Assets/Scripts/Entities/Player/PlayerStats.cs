@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats : EntityStats
@@ -9,14 +10,14 @@ public class PlayerStats : EntityStats
         base.Start();
     }
 
-    public override void TakeDamage(float Dmg)
+    public override void TakeDamage(float Dmg, bool Gore)
     {
         if (IsDead) return;
 
-        base.TakeDamage(Dmg);
+        base.TakeDamage(Dmg, Gore);
     }
 
-    protected override void EntityDeath()
+    protected override void EntityDeath(bool Gore)
     {
         if (IsDead) return;
 

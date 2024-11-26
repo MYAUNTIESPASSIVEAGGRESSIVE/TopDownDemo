@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d05e5562dccdf64ba81538d5c1b8184, type: 3}
+  m_Name: MachineGun
+  m_EditorClassIdentifier: 
+  WeaponName: Machine Gun
+  WeaponDescription: Fast Fireing
+  Damage: 6
+  WeaponID: 0
+  EWeaponType: 0
+  EUseType: 1
+  FireRate: 0.3
+  TimeToShoot: 0
+  TimeToHeat: 0
+  TimeToCool: 0
+  ClipSizeOnPickup: {x: 32, y: 200}
+  MaxDistance: 999
+  Overheatable: 0
+  ExplodeOnImpact: 0
+  ClipSize: 32
+  MaxReserveSize: 200
+  WeaponPrefab: {fileID: 8063079605141001636, guid: 1c94bd6d6bea8c94f8a84afd2a48affc, type: 3}
+  WeaponBulletPrefab: {fileID: 6927761944252849097, guid: dcb227b00f766d04ab20377f00a7622d, type: 3}

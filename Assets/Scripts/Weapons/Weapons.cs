@@ -21,20 +21,6 @@ public class Weapons : MonoBehaviour
 
     }
 
-    public virtual void UseWeapon(GameObject Bullet, Transform Weapon, int BulletCount, 
-        float AnglePerShot, int Speed, float ShootDistance, 
-        bool NonMoving, int Damage)
-    {
-        for (int i = 0; i < BulletCount; i++)
-        {
-            Instantiate(Bullet, Weapon.position, Quaternion.identity);
-
-            Bullet.GetComponent<BulletScript>().NonMoving = NonMoving;
-            Bullet.GetComponent<BulletScript>().BulletDamage = Damage;
-            Bullet.GetComponent<BulletScript>().BulletSpeed = Speed;
-        }
-    }
-
     public virtual void PlayShotAudio(AudioClip[] ShootSound)
     {
         int MaxClipAmmount = ShootSound.Length;

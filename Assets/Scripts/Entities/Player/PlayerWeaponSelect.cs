@@ -1,15 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.WSA;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerWeaponSelect : MonoBehaviour
 {
     [Header("References")]
     public GameObject GunHolder;
-    public GameObject ProjHolder;
     public GameObject MeleeHolder;
     public PlayerControl PlayerScript;
     public float GameMaxShootDistance;
@@ -18,70 +14,50 @@ public class PlayerWeaponSelect : MonoBehaviour
     [Header("Melee Weapons")]
     public List<SO_Melee> Melees = new List<SO_Melee>();
 
-    [Header("Regular Guns")]
-    public List<SO_RegularGuns> Guns = new List<SO_RegularGuns>();
-    public List<int> GunAmmo = new List<int>();
-    public List<int> GunClipCurrent = new List<int>();
-
-    [Header("Projectile Weapons")]
-    public List<SO_Projectile> Projectiles = new List<SO_Projectile>();
-    public List<int> ProjAmmo = new List<int>();
-    public List<int> ProjClipCurrent = new List<int>();
+    [Header("Weapons")]
+    public List<SO_Weaponry> Weapons = new List<SO_Weaponry>();
+    public List<int> WeaponAmmo = new List<int>();
+    public List<int> WeaponCurrentClip = new List<int>();
 
 
     [Header("Weapon Inv Variables")]
     //Gun Inv
-    public int GunsHolding = 0;
-    public int ActiveGuns;
-    //Projectile Inv
-    public int ProjectileHolding = 0;
-    public int ActiveProjectiles;
+    public int WeaponsHolding = 0;
+    public int ActiveWeapons;
     //Melee inv
     public int MeleeHolding = 0;
     public int ActiveMelees;
 
 
     [Header("Weapon ID Stats")]
-    public int CurrentGunID = -1;
+    public int CurrentWeaponID = -1;
     public int CurrentMeleeID = -1;
-    public int CurrentProjID = -1;
 
-    private bool HoldToShoot;
-    private bool ChargingShot;
+    private bool HoldToShoot = false;
+    private bool ChargingShot = false;
+    private bool Overheated = false;
+    private bool HoldToUse = false;
     private float CurrentTimer;
     private float CurrentHeater;
-    private int CurChargeTime;
-    private bool HoldToUse;
+    private float CurChargeTime;
 
     private void Start()
     {
-        GunsHolding = GunHolder.transform.childCount;
+        WeaponsHolding = GunHolder.transform.childCount;
         MeleeHolding = MeleeHolder.transform.childCount;
-        ProjectileHolding = ProjHolder.transform.childCount;
 
-
-        for (int i = 0; i < GunsHolding; i++)
+        for (int i = 0; i < MeleeHolding; i++)
         {
-            GunHolder.transform.GetChild(i).gameObject.SetActive(false);
-            GunAmmo.Add(-1);
-            Guns.Add(null);
-            GunClipCurrent.Add(-1);
+            MeleeHolder.transform.GetChild(i).gameObject.SetActive(false);
+            Melees.Add(null);
         }
 
-        for (int i = 0; i < GunsHolding; i++)
+        for(int i = 0; i < WeaponsHolding; i++)
         {
             GunHolder.transform.GetChild(i).gameObject.SetActive(false);
-            GunAmmo.Add(-1);
-            Guns.Add(null);
-            GunClipCurrent.Add(-1);
-        }
-
-        for (int i = 0; i < GunsHolding; i++)
-        {
-            GunHolder.transform.GetChild(i).gameObject.SetActive(false);
-            GunAmmo.Add(-1);
-            Guns.Add(null);
-            GunClipCurrent.Add(-1);
+            WeaponAmmo.Add(-1);
+            Weapons.Add(null);
+            WeaponCurrentClip.Add(-1);
         }
 
         PlayerScript = gameObject.GetComponent<PlayerControl>();
@@ -91,50 +67,34 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
         HandleGunShooting();
         HandleMeleeUse();
-        HandleProjShooting();
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            HandleWeaponSwitching(CurrentGunID,GunHolder);
+            HandleWeaponSwitching(CurrentWeaponID,GunHolder);
         }
 
         if(Input.GetKeyDown(KeyCode.M))
         {
             HandleWeaponSwitching(CurrentMeleeID, MeleeHolder);
         }
-
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            
-            HandleWeaponSwitching(CurrentProjID, ProjHolder);
-        }
     }
 
     private void HandleGunShooting()
     {
-        if (CurrentGunID == -1) return;
+        if (CurrentWeaponID == -1) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !Overheated)
         {
-            if (GunClipCurrent[CurrentGunID] > 0)
+            if (WeaponCurrentClip[CurrentWeaponID] > 0)
             {
-                Debug.Log("Shooting");
-                switch (Guns[CurrentGunID].GShootType)
+                switch (Weapons[CurrentWeaponID].EWeaponType)
                 {
-                    case SO_RegularGuns.ShootingType.Single:
-                        GunHolder.GetComponentInChildren<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
+                    case SO_Weaponry.WeaponType.RegularGun:
+                        GunShooting();
                         break;
 
-                    case SO_RegularGuns.ShootingType.Hold:
-                        HoldToShoot = true;
-                        break;
-                    case SO_RegularGuns.ShootingType.Charge:
-                        int ChargeTime = Guns[CurrentGunID].TimeToShoot;
-                        CurrentTimer += Time.deltaTime;
-                        if (CurChargeTime > ChargeTime)
-                        {
-                            HoldToShoot = true;
-                        }
+                    case SO_Weaponry.WeaponType.Projectile:
+                        ProjectileShooting();
                         break;
                 }
             }
@@ -142,50 +102,143 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            switch (Guns[CurrentGunID].GShootType)
+            switch (Weapons[CurrentWeaponID].EUseType)
             {
-                case SO_RegularGuns.ShootingType.Hold:
+                case SO_Weaponry.UseType.Hold:
                     HoldToShoot = false;
+                    break;
+                case SO_Weaponry.UseType.Charge:
+                    ChargingShot = false;
                     break;
             }
         }
 
-        if (HoldToShoot) 
+        if (WeaponCurrentClip[CurrentWeaponID] == 0)
         {
-            float FireRate = Guns[CurrentGunID].FireRate;
-            bool Heated = Guns[CurrentGunID].Overheatable;
-            float HeatTimer = Guns[CurrentGunID].MaxTimeToHeat;
+            HandleGunReloading(CurrentWeaponID, false);
+        }
 
-            if (GunClipCurrent[CurrentGunID] > 0)
+        if (WeaponCurrentClip[CurrentWeaponID] == 0)
+        {
+            int MaxWeaponClip = Weapons[CurrentWeaponID].ClipSize;
+            int CurrentAmmo = WeaponAmmo[CurrentWeaponID];
+            if (CurrentAmmo < MaxWeaponClip)
             {
-                CurrentTimer += Time.deltaTime;
-                if (CurrentTimer > FireRate)
-                {
-                    Debug.Log("SHoot BooletFFs");
-                    --GunClipCurrent[CurrentGunID];
-                    GunHolder.GetComponentInChildren<RegularGuns>().ShootingGun(Guns[CurrentGunID]);
-                    CurrentTimer = 0;
-                }
+                WeaponCurrentClip[CurrentWeaponID] = CurrentAmmo;
+                WeaponAmmo[CurrentWeaponID] = 0;
+            }
+            else
+            {
+                WeaponCurrentClip[CurrentWeaponID] = MaxWeaponClip;
+                WeaponAmmo[CurrentWeaponID] -= MaxWeaponClip;
+            }
+        }
 
-                if (CurrentTimer > FireRate && Heated)
-                {
-                    HeatTimer += Time.deltaTime;
+        if (WeaponCurrentClip[CurrentWeaponID] == 0 && WeaponAmmo[CurrentWeaponID] == 0)
+        {
+            if (HoldToShoot) HoldToShoot = false;
+            ChargingShot = false;
+        }
 
-                    if (CurrentHeater > HeatTimer)
-                    {
-                        HoldToShoot = false;
-                        CurrentHeater = 0;
-                    }
+        if (ChargingShot)
+        {
+            if (WeaponCurrentClip[CurrentWeaponID] > 0)
+            {
+                CurChargeTime += Time.deltaTime;
+                if (CurChargeTime > Weapons[CurrentWeaponID].TimeToShoot)
+                {
+                    HoldToShoot = true;
                 }
             }
-            else HoldToShoot = false;
         }
 
-        if (GunClipCurrent[CurrentGunID] <= 0 && Input.GetKeyDown(KeyCode.R))
+        if (HoldToShoot)
         {
-            HandleGunReloading(CurrentGunID, false);
+            if (WeaponCurrentClip[CurrentWeaponID] > 0)
+            {
+                CurrentTimer += Time.deltaTime;
+                if (CurrentTimer > Weapons[CurrentWeaponID].FireRate)
+                {
+                    --WeaponCurrentClip[CurrentWeaponID];
+                    GunRayShoot();
+                    CurrentTimer = 0;
+                }
+            }
+            else
+            {
+                HoldToShoot = false;
+            }
+
+            if (Weapons[CurrentWeaponID].Overheatable == true)
+            {
+                CurrentHeater += Time.deltaTime;
+                if (CurrentHeater > Weapons[CurrentWeaponID].TimeToHeat)
+                {
+                    Overheated = true;
+                    StartCoroutine(CoolDownToShoot(Weapons[CurrentWeaponID].TimeToCool));
+                    HoldToShoot = false;
+                }
+            }
         }
 
+    }
+
+    private void GunShooting()
+    {
+        switch (Weapons[CurrentWeaponID].EUseType)
+        {
+            case SO_Weaponry.UseType.Single:
+                GunRayShoot();
+                --WeaponCurrentClip[CurrentWeaponID];
+                break;
+            case SO_Weaponry.UseType.Hold:
+                HoldToShoot = true;
+                break;
+            case SO_Weaponry.UseType.Charge:
+                ChargingShot = true;
+                break;
+        }
+    }
+
+    private IEnumerator CoolDownToShoot(int timer)
+    {
+        yield return new WaitForSecondsRealtime(timer);
+        Overheated = false;
+        CurrentHeater = 0;
+    }
+    private void ProjectileShooting()
+    {
+        switch (Weapons[CurrentWeaponID].EUseType)
+        {
+            case SO_Weaponry.UseType.Single:
+                ProjShooter();
+                --WeaponCurrentClip[CurrentWeaponID];
+                break;
+            case SO_Weaponry.UseType.Hold:
+                HoldToShoot = true;
+                break;
+        }
+    }
+
+    private void ProjShooter()
+    {
+        GameObject Bullet = Instantiate(Weapons[CurrentWeaponID].WeaponBulletPrefab,
+            GunHolder.transform.position, Quaternion.identity);
+
+        Bullet.GetComponent<ProjectileBullet>().SOWeapon = Weapons[CurrentWeaponID];
+    }
+
+    private void GunRayShoot()
+    {
+        RaycastHit2D hit;
+
+        if (hit = Physics2D.Raycast(GunHolder.transform.position, PlayerScript.direction))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<EnemyStats>().TakeDamage(Weapons[CurrentWeaponID].Damage, false);
+            }
+        }
     }
 
     private void HandleMeleeUse()
@@ -226,135 +279,9 @@ public class PlayerWeaponSelect : MonoBehaviour
         else HoldToUse = false;
     }
 
-    private void HandleProjShooting()
-    {
-        if (CurrentMeleeID == -1 || ProjAmmo[CurrentProjID] <= 0) return;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (ProjClipCurrent[CurrentProjID] > 0)
-            {
-                switch (Projectiles[CurrentProjID].EProjType)
-                {
-                    case SO_Projectile.ProjType.Shootable:
-                        ProjectileShooting();
-                        break;
-
-                    case SO_Projectile.ProjType.Throwable:
-                        ProjectileThrowing();
-                        break;
-                }
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            ChargingShot = false;
-        }
-
-        if (ProjClipCurrent[CurrentProjID] <= 0 && Input.GetKeyDown(KeyCode.R))
-        {
-            HandleProjReloading(CurrentProjID, false);
-        }
-    }
-
-    private void ProjectileShooting()
-    {
-        switch (Projectiles[CurrentProjID].EProjUse)
-        {
-            case SO_Projectile.ProjUseType.Single:
-                ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
-                --ProjClipCurrent[CurrentProjID];
-                break;
-            case SO_Projectile.ProjUseType.Charge:
-                ChargingShot = true;
-                break;
-        }
-
-        if (ChargingShot)
-        {
-            int ChargeTime = Projectiles[CurrentProjID].TimeToUse;
-            float ShotDist = Projectiles[CurrentProjID].ShootDistance;
-            float CurrentShotDist;
-
-            CurrentTimer += Time.deltaTime;
-            if (CurChargeTime > ChargeTime)
-            {
-                CurrentShotDist = ShotDist + 2f;
-                ChargingShot = false;
-
-                if (Input.GetMouseButtonUp(0))
-                {
-                    float MaxShotDistance = CurrentShotDist;
-
-                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
-                    --ProjClipCurrent[CurrentProjID];
-
-                    ChargingShot = false;
-                }
-                else if (CurrentShotDist >= GameMaxShootDistance)
-                {
-                    float MaxShotDistance = CurrentShotDist;
-
-                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileShoot(Projectiles[CurrentProjID], MaxShotDistance);
-                    --ProjClipCurrent[CurrentProjID];
-
-                    ChargingShot = false;
-                }
-            }
-        }
-        else ChargingShot = false;
-    }
-
-    private void ProjectileThrowing()
-    {
-        switch (Projectiles[CurrentProjID].EProjUse)
-        {
-            case SO_Projectile.ProjUseType.Single:
-                ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], Projectiles[CurrentProjID].ShootDistance);
-                --ProjClipCurrent[CurrentProjID];
-                break;
-            case SO_Projectile.ProjUseType.Charge:
-                ChargingShot = true;
-                break;
-        }
-
-        if (ChargingShot)
-        {
-            int ChargeTime = Projectiles[CurrentProjID].TimeToUse;
-            float ShotDist = Projectiles[CurrentProjID].ShootDistance;
-            float CurrentShotDist;
-
-            CurrentTimer += Time.deltaTime;
-            if (CurChargeTime > ChargeTime)
-            {
-                CurrentShotDist = ShotDist + 2f;
-                ChargingShot = false;
-
-                if (Input.GetMouseButtonUp(0))
-                {
-                    float MaxShotDistance = CurrentShotDist;
-
-                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
-                    --ProjClipCurrent[CurrentProjID];
-                    ChargingShot = false;
-                }
-                else if (CurrentShotDist >= GameMaxShootDistance)
-                {
-                    float MaxShotDistance = CurrentShotDist;
-
-                    ProjHolder.GetComponentInChildren<ProjectileGuns>().ProjectileThrow(Projectiles[CurrentProjID], MaxShotDistance);
-                    --ProjClipCurrent[CurrentProjID];
-                    ChargingShot = false;
-                }
-            }
-        }
-        else ChargingShot = false;
-    }
-
     private void HandleWeaponSwitching(int WeaponID, GameObject Holder)
     {
-        if (CurrentGunID == -1 || CurrentMeleeID == -1 || CurrentProjID == -1) return;
+        if (CurrentWeaponID == -1 || CurrentMeleeID == -1) return;
 
         UpdateInventory(WeaponID, Holder);
     }
@@ -366,7 +293,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         while (true)
         {
-            if (NextID == GunsHolding - 1 || NextID == ProjectileHolding - 1 || NextID == MeleeHolding - 1)
+            if (NextID == WeaponsHolding - 1 || NextID == MeleeHolding - 1)
             {
                 NextID = 0;
             }
@@ -375,7 +302,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 ++NextID;
             }
 
-            if (GunAmmo[NextID] >= 0 || ProjAmmo[NextID] >= 0 || Melees[NextID])
+            if (WeaponAmmo[NextID] >= 0 || Melees[NextID])
             {
                 //I actually have that gun!!!
                 WeaponID = NextID;
@@ -394,37 +321,31 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if(AmmoFull)
         {
-            GunClipCurrent[GunID] = Guns[GunID].ClipSize;
-            GunAmmo[GunID] = GunAmmo[GunID] - Guns[GunID].ClipSize;
+            WeaponCurrentClip[GunID] = Weapons[GunID].ClipSize;
         }
     }
 
-    internal void HandleProjReloading(int WeaponID, bool AmmoFull)
+    public void UpdateGunInv(SO_Weaponry SOGun)
     {
-        if (AmmoFull)
+        
+        CurrentWeaponID = SOGun.WeaponID;
+        GunHolder.transform.GetChild(SOGun.WeaponID).gameObject.SetActive(true);
+        WeaponCurrentClip[SOGun.WeaponID] = SOGun.ClipSize;
+        
+        foreach (Transform child in MeleeHolder.transform)
         {
-            ProjClipCurrent[WeaponID] = Projectiles[WeaponID].ClipSize;
-            ProjAmmo[WeaponID] = ProjAmmo[WeaponID] - Projectiles[WeaponID].ClipSize;
+            child.gameObject.SetActive(false);
         }
-    }
-
-    public void UpdateGunInv(SO_RegularGuns SOGun)
-    {
-        CurrentGunID = SOGun.GunID;
-        GunHolder.transform.GetChild(SOGun.GunID).gameObject.SetActive(true);
-        GunClipCurrent[SOGun.GunID] = SOGun.ClipSize;
-    }
-
-    public void UpdateProjInv(SO_Projectile SOProj)
-    {
-        CurrentProjID = SOProj.ProjID;
-        ProjHolder.transform.GetChild(SOProj.ProjID).gameObject.SetActive(true);
-        ProjClipCurrent[SOProj.ProjID] = SOProj.ClipSize;
     }
 
     public void UpdateMeleeInv(SO_Melee SOMelee)
     {
         CurrentMeleeID = SOMelee.MeleeID;
         MeleeHolder.transform.GetChild(SOMelee.MeleeID).gameObject.SetActive(true);
+
+        foreach (Transform child in GunHolder.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 }

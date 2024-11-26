@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Melee", menuName = "Weaponry/Melee", order = 3)]
+[CreateAssetMenu(fileName = "Melee", menuName = "Weaponry/Melee", order = 2)]
 public class SO_Melee : ScriptableObject
 {
     [Header("Melee Key Components")]
