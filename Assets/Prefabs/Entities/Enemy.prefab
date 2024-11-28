@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 350752599555305908}
   - component: {fileID: 4315926487951268148}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: f1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1931541385184186663}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 4867493843683581271}
   - component: {fileID: 6825476954526109508}
   - component: {fileID: 3815393942416093439}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 50
+  CurrentHealth: 0
   DEF: 1
   DmgRedPerPt: 0.05
   EnemyRB: {fileID: 0}
@@ -304,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 713313431604071352}
   - component: {fileID: 4971520039997178510}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: f2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8442695048825201910}
   - component: {fileID: 4067776548737589261}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemySource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,9 +420,9 @@ AudioSource:
   m_GameObject: {fileID: 7185465192917993308}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -300144778753791260, guid: 753a6b4167b0b214c9e6a5bbb6aa9940, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

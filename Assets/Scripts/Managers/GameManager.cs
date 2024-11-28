@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         PlayerPointText.text = "Points:" + PlayerPoints;
+
+        if(PlayerPoints <= 0)
+        {
+            PlayerPoints = 0;
+        }
     }
 
 

@@ -2,35 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBullet : MonoBehaviour
+public class ProjectileBullet : Weapons
 {
     public SO_Weaponry SOWeapon;
     public LayerMask HittableLayer;
 
     private Rigidbody2D BulletRB;
 
-    private Transform StartPos;
-
     private void Start()
     {
         BulletRB = GetComponent<Rigidbody2D>();
 
-        StartPos = transform;
+        Vector3 MPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 movedirection = MPos - transform.position;
+        Vector3 rot = transform.position - MPos;
 
-        float AngRad = Mathf.Atan2(BulletRB.velocity.x, BulletRB.velocity.y);
-        float AngDeg = (180 / Mathf.PI) * AngRad - 90;
+        BulletRB.velocity = new Vector2(movedirection.x, movedirection.y).normalized * SOWeapon.BulletSpeed;
+        float rotation = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0, 0, AngDeg);
-    }
+        transform.rotation = Quaternion.Euler(0, 0, rotation + 90);
 
-    private void Update()
-    {
-        BulletRB.AddForce(transform.right * SOWeapon.BulletSpeed, ForceMode2D.Impulse);
+        StartCoroutine(DestroyTimer());
 
-        if (Vector2.Distance(StartPos.position,transform.position) > SOWeapon.MaxDistance)
-        {
-            Destroy(gameObject);
-        }
+        base.PlayShotAudio(SOWeapon.WeaponAudio);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -59,7 +54,8 @@ public class ProjectileBullet : MonoBehaviour
                 collision.transform.GetComponent<EnemyStats>().TakeDamage(SOWeapon.Damage, true);
 
                 RaycastHit2D Hit;
-                if (Hit = Physics2D.CircleCast(transform.position, SOWeapon.AOERange, transform.position))
+
+                if (Hit = Physics2D.CircleCast(transform.position, SOWeapon.AOERange, transform.position, 5, HittableLayer))
                 {
                     Hit.transform.GetComponent<EnemyStats>().TakeDamage(SOWeapon.Damage, true);
                 }
@@ -72,5 +68,11 @@ public class ProjectileBullet : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private IEnumerator DestroyTimer()
+    {
+        yield return new WaitForSecondsRealtime(10);
+        Destroy(gameObject);
     }
 }

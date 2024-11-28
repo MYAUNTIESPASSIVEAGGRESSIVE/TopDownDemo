@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : EntityStats
 {
+    public Slider HealthSlider;
+
     protected override void Start()
     {
         base.Start();
@@ -15,6 +18,8 @@ public class PlayerStats : EntityStats
         if (IsDead) return;
 
         base.TakeDamage(Dmg, Gore);
+
+
     }
 
     protected override void EntityDeath(bool Gore)

@@ -11,7 +11,7 @@ public class EntityStats : MonoBehaviour
     //protected GameManager GameManagerScript;
 
     public float MaxHealth;
-    protected float CurrentHealth;
+    public float CurrentHealth;
     internal bool IsDead;
 
     public int DEF;
@@ -26,6 +26,14 @@ public class EntityStats : MonoBehaviour
 
 
         CurrentHealth = MaxHealth;
+    }
+
+    protected virtual void Update()
+    {
+        if(CurrentHealth > MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
     }
 
     public virtual void TakeDamage(float Dmg, bool GoryDeath)

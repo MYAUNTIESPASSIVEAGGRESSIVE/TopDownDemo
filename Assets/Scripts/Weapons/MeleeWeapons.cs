@@ -15,6 +15,7 @@ public class MeleeWeapons : Weapons
 
 
         MeleeSO = SOMelee;
+
         base.PlayShotAudio(SOMelee.MeleeAudio);
     }
 

@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class HealthPickUp : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float RespawnTime = 10;
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.transform.CompareTag("Player"))
+        {
+            PlayerStats PlayerScript;
+            PlayerScript = collision.transform.GetComponent<PlayerStats>();
+
+            if (PlayerScript.CurrentHealth == 100)
+            {
+                PlayerScript.CurrentHealth = 100;
+            }
+            else
+            {
+                PlayerScript.CurrentHealth = PlayerScript.CurrentHealth + 50;
+            }
+
+            gameObject.SetActive(false);
+
+            StartCoroutine(RespawnHealthDrop());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator RespawnHealthDrop()
     {
-        
+        yield return new WaitForSecondsRealtime(RespawnTime);
+
+        gameObject.SetActive(true);
     }
 }

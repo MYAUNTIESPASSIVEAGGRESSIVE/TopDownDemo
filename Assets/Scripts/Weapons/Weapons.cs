@@ -3,7 +3,7 @@ using UnityEngine;
 public class Weapons : MonoBehaviour
 {
     private PlayerWeaponSelect WeaponSelectScript;
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
 
     //private bool HoldingGun = false;
     //private bool HoldingProj = false;
@@ -25,7 +25,7 @@ public class Weapons : MonoBehaviour
     {
         int MaxClipAmmount = ShootSound.Length;
 
-        audioSource.PlayOneShot(ShootSound[Random.Range(1, MaxClipAmmount)]);
+        audioSource.PlayOneShot(ShootSound[Random.Range(0, MaxClipAmmount)]);
     }
 
     public virtual void PlayReloadAudio(AudioClip ReloadSound)

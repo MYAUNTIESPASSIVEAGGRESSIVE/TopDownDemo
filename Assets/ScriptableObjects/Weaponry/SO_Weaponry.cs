@@ -37,7 +37,7 @@ public class SO_Weaponry : ScriptableObject
 
 
     [Header("Bullet Variables")]
-    public float MaxDistance = 999;
+    public int MaxDistance = 999;
     public bool Overheatable;
     public bool ExplodeOnImpact;
     public int ClipSize;

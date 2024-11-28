@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class PlayerWeaponSelect : MonoBehaviour
 {
     [Header("References")]
     public GameObject GunHolder;
     public GameObject MeleeHolder;
+    public TMP_Text AmmoText;
+    public TMP_Text WeaponName;
     public PlayerControl PlayerScript;
     public float GameMaxShootDistance;
     public LayerMask HittableLayer;
@@ -49,6 +53,9 @@ public class PlayerWeaponSelect : MonoBehaviour
         WeaponsHolding = GunHolder.transform.childCount;
         MeleeHolding = MeleeHolder.transform.childCount;
 
+        AmmoText.text = "";
+        WeaponName.text = "";
+
         for (int i = 0; i < MeleeHolding; i++)
         {
             MeleeHolder.transform.GetChild(i).gameObject.SetActive(false);
@@ -72,15 +79,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         HandleGunShooting();
         HandleMeleeUse();
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            HandleWeaponSwitching(CurrentWeaponID, GunHolder);
-        }
-
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            HandleWeaponSwitching(CurrentMeleeID, MeleeHolder);
-        }
+        HandleWeaponSwitching();
     }
 
     private void HandleGunShooting()
@@ -117,10 +116,8 @@ public class PlayerWeaponSelect : MonoBehaviour
             }
         }
 
-        if (WeaponCurrentClip[CurrentWeaponID] == 0)
-        {
-            HandleGunReloading(CurrentWeaponID, false);
-        }
+
+        HandleGunReloading(CurrentWeaponID, false);
 
         if (WeaponCurrentClip[CurrentWeaponID] == 0)
         {
@@ -164,7 +161,7 @@ public class PlayerWeaponSelect : MonoBehaviour
                 if (CurrentTimer > Weapons[CurrentWeaponID].FireRate)
                 {
                     --WeaponCurrentClip[CurrentWeaponID];
-                    GunRayShoot();
+                    ProjShooter();
                     CurrentTimer = 0;
                 }
             }
@@ -192,7 +189,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         switch (Weapons[CurrentWeaponID].EUseType)
         {
             case SO_Weaponry.UseType.Single:
-                GunRayShoot();
+                ProjShooter();
                 --WeaponCurrentClip[CurrentWeaponID];
                 break;
             case SO_Weaponry.UseType.Hold:
@@ -224,27 +221,18 @@ public class PlayerWeaponSelect : MonoBehaviour
         }
     }
 
+    private void GunRayShot()
+    {
+
+    }
+
     private void ProjShooter()
     {
         GameObject Bullet = Instantiate(Weapons[CurrentWeaponID].WeaponBulletPrefab,
             GunHolder.transform.position, Quaternion.identity);
 
         Bullet.GetComponent<ProjectileBullet>().SOWeapon = Weapons[CurrentWeaponID];
-    }
 
-    private void GunRayShoot()
-    {
-        RaycastHit2D hit;
-
-        if (hit = Physics2D.Raycast(GunHolder.transform.position, PlayerScript.direction, Weapons[CurrentWeaponID].MaxDistance, HittableLayer))
-        {
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                hit.collider.GetComponent<EnemyStats>().TakeDamage(Weapons[CurrentWeaponID].Damage, false);
-            }
-        }
-
-        WeaponsScript.PlayShotAudio(Weapons[CurrentWeaponID].WeaponAudio);
     }
 
     private void HandleMeleeUse()
@@ -287,36 +275,54 @@ public class PlayerWeaponSelect : MonoBehaviour
         else HoldToUse = false;
     }
 
-    private void HandleWeaponSwitching(int WeaponID, GameObject Holder)
+    private void HandleWeaponSwitching()
     {
-        if (CurrentWeaponID == -1 || CurrentMeleeID == -1) return;
+        if (Input.GetKeyDown(KeyCode.Tab) && CurrentWeaponID != -1 && ActiveWeapons > 0)
+        {
+            if(MeleeHolding > 0 && MeleeHolder.transform.GetChild(CurrentMeleeID).gameObject.activeSelf)
+            {
+                MeleeHolder.transform.GetChild(CurrentMeleeID).gameObject.SetActive(false);
+                UpdateInventory(GunHolder);
+            }
+            
+            UpdateInventory(GunHolder);
+        }
 
-        UpdateInventory(WeaponID, Holder);
+        if (Input.GetKeyDown(KeyCode.M) && CurrentMeleeID != -1 && ActiveMelees > 0)
+        {
+            if (GunHolder.transform.GetChild(CurrentWeaponID).gameObject.activeSelf)
+            {
+                GunHolder.transform.GetChild(CurrentWeaponID).gameObject.SetActive(false);
+                MeleeHolder.transform.GetChild(CurrentMeleeID).gameObject.SetActive(true);
+            }
+            else MeleeHolder.transform.GetChild(CurrentMeleeID).gameObject.SetActive(true);
+        }
     }
 
-    private void UpdateInventory(int WeaponID, GameObject Holder)
+    private void UpdateInventory(GameObject Holder)
     {
-        int CurrentID = WeaponID;
-        int NextID = WeaponID;
+        int CurrentID = CurrentWeaponID;
+        int NextID = CurrentWeaponID;
 
         while (true)
         {
-            if (NextID == WeaponsHolding - 1 || NextID == MeleeHolding - 1)
+            if (NextID == WeaponsHolding - 1)
             {
                 NextID = 0;
+                
             }
             else
             {
                 ++NextID;
             }
 
-            if (WeaponAmmo[NextID] >= 0 || Melees[NextID])
+            if (WeaponAmmo[NextID] >= 0)
             {
                 //I actually have that gun!!!
-                WeaponID = NextID;
+                CurrentWeaponID = NextID;
                 Holder.transform.GetChild(CurrentID).gameObject.SetActive(false);
                 Holder.transform.GetChild(NextID).gameObject.SetActive(true);
-
+                HandleGunReloading(NextID,false);
                 break;
             }
 
@@ -331,11 +337,14 @@ public class PlayerWeaponSelect : MonoBehaviour
         {
             WeaponCurrentClip[GunID] = Weapons[GunID].ClipSize;
         }
+
+        UpdateUI(GunID);
     }
 
-    private void UpdateUI()
+    private void UpdateUI(int ID)
     {
-
+        AmmoText.text = WeaponCurrentClip[ID] + "/" + WeaponAmmo[ID];
+        WeaponName.text = Weapons[ID].WeaponName;
     }
 
     public void UpdateGunInv(SO_Weaponry SOGun)

@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void StartGameButton()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void QuitButton()
     {
-        
+        Application.Quit();
     }
 }

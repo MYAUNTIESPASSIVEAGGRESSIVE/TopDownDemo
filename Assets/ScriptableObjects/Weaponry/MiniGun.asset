@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d05e5562dccdf64ba81538d5c1b8184, type: 3}
+  m_Name: MiniGun
+  m_EditorClassIdentifier: 
+  WeaponName: Mini Gun
+  WeaponDescription: Brrrrrr
+  Damage: 5
+  WeaponID: 2
+  EWeaponType: 0
+  EUseType: 2
+  FireRate: 0.05
+  TimeToShoot: 2
+  TimeToHeat: 5
+  TimeToCool: 3
+  ClipSizeOnPickup: {x: 100, y: 0}
+  MaxDistance: 999
+  Overheatable: 1
+  ExplodeOnImpact: 0
+  ClipSize: 200
+  MaxReserveSize: 300
+  BulletSpeed: 20
+  AOERange: 1
+  WeaponAudio: []
+  WeaponPrefab: {fileID: 0}
+  WeaponBulletPrefab: {fileID: 0}

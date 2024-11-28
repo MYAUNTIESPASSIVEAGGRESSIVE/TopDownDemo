@@ -31,7 +31,7 @@ public class EnemyStats : EntityStats
         //attackingTarget = false;
     }
 
-    protected void Update()
+    private void FixedUpdate()
     {
         EnemyLook();
         EnemyMove();
