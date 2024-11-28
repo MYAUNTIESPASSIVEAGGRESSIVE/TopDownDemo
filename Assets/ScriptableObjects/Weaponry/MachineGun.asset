@@ -22,14 +22,16 @@ MonoBehaviour:
   TimeToShoot: 0
   TimeToHeat: 0
   TimeToCool: 0
+  UsesFuel: 0
   ClipSizeOnPickup: {x: 32, y: 200}
   MaxDistance: 999
+  BulletsPerShot: 1
   Overheatable: 0
   ExplodeOnImpact: 0
   ClipSize: 32
   MaxReserveSize: 200
   BulletSpeed: 12
-  AOERange: 0
+  AOERange: 1
   WeaponAudio:
   - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
   - {fileID: 8300000, guid: 3f8f7868b4e1685459eed1763da9a1ee, type: 3}

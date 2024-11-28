@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.WSA;
 
 public class PlayerWeaponSelect : MonoBehaviour
@@ -11,6 +12,8 @@ public class PlayerWeaponSelect : MonoBehaviour
     public GameObject MeleeHolder;
     public TMP_Text AmmoText;
     public TMP_Text WeaponName;
+    public Slider FuelSlider;
+    public Slider OverheatSlider;
     public PlayerControl PlayerScript;
     public float GameMaxShootDistance;
     public LayerMask HittableLayer;
@@ -55,6 +58,10 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         AmmoText.text = "";
         WeaponName.text = "";
+
+        FuelSlider.gameObject.SetActive(false);
+        OverheatSlider.gameObject.SetActive(false);
+        OverheatSlider.value = 0;
 
         for (int i = 0; i < MeleeHolding; i++)
         {
@@ -186,6 +193,12 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void GunShooting()
     {
+        if (Weapons[CurrentWeaponID].Overheatable)
+        {
+
+        }
+
+
         switch (Weapons[CurrentWeaponID].EUseType)
         {
             case SO_Weaponry.UseType.Single:
@@ -228,10 +241,13 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void ProjShooter()
     {
-        GameObject Bullet = Instantiate(Weapons[CurrentWeaponID].WeaponBulletPrefab,
-            GunHolder.transform.position, Quaternion.identity);
+        for (int i = 0; i < Weapons[CurrentWeaponID].BulletsPerShot; ++i)
+        {
+            GameObject Bullet = Instantiate(Weapons[CurrentWeaponID].WeaponBulletPrefab,
+                GunHolder.transform.position, Quaternion.identity);
 
-        Bullet.GetComponent<ProjectileBullet>().SOWeapon = Weapons[CurrentWeaponID];
+            Bullet.GetComponent<ProjectileBullet>().SOWeapon = Weapons[CurrentWeaponID];
+        }
 
     }
 
@@ -343,8 +359,27 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void UpdateUI(int ID)
     {
-        AmmoText.text = WeaponCurrentClip[ID] + "/" + WeaponAmmo[ID];
-        WeaponName.text = Weapons[ID].WeaponName;
+        if (Weapons[CurrentWeaponID].UsesFuel)
+        {
+            WeaponName.text = Weapons[ID].WeaponName;
+            FuelSlider.gameObject.SetActive(true);
+
+            FuelSlider.value = WeaponCurrentClip[CurrentWeaponID];
+        }
+        else
+        {
+            AmmoText.text = WeaponCurrentClip[ID] + "/" + WeaponAmmo[ID];
+            WeaponName.text = Weapons[ID].WeaponName;
+            FuelSlider.gameObject.SetActive(false);
+        }
+
+        if (Weapons[CurrentWeaponID].Overheatable)
+        {
+            OverheatSlider.maxValue = Weapons[CurrentWeaponID].TimeToHeat;
+            OverheatSlider.gameObject.SetActive(true);
+            
+        }
+        else OverheatSlider.gameObject.SetActive(false);
     }
 
     public void UpdateGunInv(SO_Weaponry SOGun)

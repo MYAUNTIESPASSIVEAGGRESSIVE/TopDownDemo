@@ -8,6 +8,7 @@ public class EntityStats : MonoBehaviour
     protected CircleCollider2D EntityCol;
     protected Animator EntityAnim;
     protected Rigidbody2D EntityRB;
+    protected ParticleSystem GoreDeathParticle;
     //protected GameManager GameManagerScript;
 
     public float MaxHealth;
@@ -22,6 +23,7 @@ public class EntityStats : MonoBehaviour
         TryGetComponent(out EntityCol);
         TryGetComponent(out EntityAnim);
         TryGetComponent(out EntityRB);
+        TryGetComponent(out GoreDeathParticle);
         //TryGetComponent(out GameManagerScript);
 
 
@@ -50,11 +52,7 @@ public class EntityStats : MonoBehaviour
     {
         if (GoryDeath)
         {
-
-        }
-        else
-        {
-
+            GoreDeathParticle.Play();
         }
     }
 }

@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d05e5562dccdf64ba81538d5c1b8184, type: 3}
-  m_Name: MiniGun
+  m_Name: ShotGun
   m_EditorClassIdentifier: 
-  WeaponName: Mini Gun
-  WeaponDescription: Brrrrrr
-  Damage: 5
-  WeaponID: 2
+  WeaponName: ShotGun
+  WeaponDescription: Shot Gun shoots 3 bullets per shot
+  Damage: 20
+  WeaponID: 3
   EWeaponType: 0
-  EUseType: 2
-  FireRate: 0.05
-  TimeToShoot: 2
-  TimeToHeat: 5
-  TimeToCool: 3
+  EUseType: 0
+  FireRate: 0
+  TimeToShoot: 0
+  TimeToHeat: 0
+  TimeToCool: 0
   UsesFuel: 0
-  ClipSizeOnPickup: {x: 100, y: 0}
+  ClipSizeOnPickup: {x: 40, y: 70}
   MaxDistance: 999
   BulletsPerShot: 3
-  Overheatable: 1
+  Overheatable: 0
   ExplodeOnImpact: 0
-  ClipSize: 200
-  MaxReserveSize: 300
-  BulletSpeed: 20
+  ClipSize: 5
+  MaxReserveSize: 70
+  BulletSpeed: 5
   AOERange: 1
   WeaponAudio: []
-  WeaponPrefab: {fileID: 1745574735479283679, guid: e6ae116eef8f38a4186153592b1af689, type: 3}
+  WeaponPrefab: {fileID: 2620613851151074818, guid: 226232f6db18e8e4eb9f9018a63aa373, type: 3}
   WeaponBulletPrefab: {fileID: 6927761944252849097, guid: dcb227b00f766d04ab20377f00a7622d, type: 3}

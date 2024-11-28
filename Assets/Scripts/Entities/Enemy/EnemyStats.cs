@@ -24,6 +24,8 @@ public class EnemyStats : EntityStats
     {
         base.Start();
 
+        Target = GameObject.FindGameObjectWithTag("Player");
+
         Converted = false;
 
         EnemyRB = GetComponent<Rigidbody2D>();
@@ -82,11 +84,16 @@ public class EnemyStats : EntityStats
 
         //GameManagerScript.PlayerPoints = GameManagerScript.PlayerPoints + Random.Range(100, 175);
 
+        Destroy(gameObject);
+
         if (GoryDeath)
         {
-
-
+            GoreDeathParticle.Play();
             gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

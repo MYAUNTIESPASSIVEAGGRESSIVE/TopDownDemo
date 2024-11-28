@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,12 +33,14 @@ public class SO_Weaponry : ScriptableObject
     public float TimeToShoot;
     public float TimeToHeat;
     public int TimeToCool;
+    public bool UsesFuel;
 
     public Vector2 ClipSizeOnPickup;
 
 
     [Header("Bullet Variables")]
     public int MaxDistance = 999;
+    public int BulletsPerShot;
     public bool Overheatable;
     public bool ExplodeOnImpact;
     public int ClipSize;

@@ -24,8 +24,14 @@ public class ProjectileBullet : Weapons
 
         StartCoroutine(DestroyTimer());
 
-        base.PlayShotAudio(SOWeapon.WeaponAudio);
+    }
 
+    public override void PlayShotAudio(AudioClip[] ShootSound)
+    {
+
+        ShootSound = SOWeapon.WeaponAudio;
+
+        base.PlayShotAudio(ShootSound);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -72,7 +78,7 @@ public class ProjectileBullet : Weapons
 
     private IEnumerator DestroyTimer()
     {
-        yield return new WaitForSecondsRealtime(10);
+        yield return new WaitForSecondsRealtime(3);
         Destroy(gameObject);
     }
 }
