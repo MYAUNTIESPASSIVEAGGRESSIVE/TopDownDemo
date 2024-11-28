@@ -22,9 +22,6 @@ MonoBehaviour:
   KnockBackRange: 0.5
   ShotAmount: 0
   UseSpeed: 0
-  ShootOut: 0
-  MeleeAudio:
-  - {fileID: 0}
-  - {fileID: 0}
-  MeleeSource: {fileID: 0}
+  Gore: 1
+  MeleeAudio: []
   MeleePrefab: {fileID: 8881741894170498876, guid: 7a2f61d787421454888eafaf70023995, type: 3}

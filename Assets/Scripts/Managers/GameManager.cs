@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public int PlayerPoints;
     public Transform PlayerTransform;
     public Transform SpawnPoint;
+
+    public TextMeshPro PlayerPointText;
 
     private void Awake()
     {
@@ -15,8 +18,19 @@ public class GameManager : MonoBehaviour
         PlayerTransform.position = SpawnPoint.position;
     }
 
+    public void Update()
+    {
+        PlayerPointText.text = "Points:" + PlayerPoints;
+    }
+
+
     public void Respawn()
     {
+        if(PlayerPoints > 0)
+        {
+            PlayerPoints = PlayerPoints - 500;
+        }
+
         PlayerTransform.position = SpawnPoint.position;
     }
 }

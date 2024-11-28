@@ -9,6 +9,9 @@ public class PlayerWeaponSelect : MonoBehaviour
     public GameObject MeleeHolder;
     public PlayerControl PlayerScript;
     public float GameMaxShootDistance;
+    public LayerMask HittableLayer;
+
+    private Weapons WeaponsScript;
 
     //Weapon Lists
     [Header("Melee Weapons")]
@@ -61,6 +64,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         }
 
         PlayerScript = gameObject.GetComponent<PlayerControl>();
+        WeaponsScript = gameObject.GetComponent<Weapons>();
     }
 
     private void Update()
@@ -70,7 +74,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            HandleWeaponSwitching(CurrentWeaponID,GunHolder);
+            HandleWeaponSwitching(CurrentWeaponID, GunHolder);
         }
 
         if(Input.GetKeyDown(KeyCode.M))
@@ -232,13 +236,15 @@ public class PlayerWeaponSelect : MonoBehaviour
     {
         RaycastHit2D hit;
 
-        if (hit = Physics2D.Raycast(GunHolder.transform.position, PlayerScript.direction))
+        if (hit = Physics2D.Raycast(GunHolder.transform.position, PlayerScript.direction, Weapons[CurrentWeaponID].MaxDistance, HittableLayer))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
                 hit.collider.GetComponent<EnemyStats>().TakeDamage(Weapons[CurrentWeaponID].Damage, false);
             }
         }
+
+        WeaponsScript.PlayShotAudio(Weapons[CurrentWeaponID].WeaponAudio);
     }
 
     private void HandleMeleeUse()
@@ -250,7 +256,8 @@ public class PlayerWeaponSelect : MonoBehaviour
             switch (Melees[CurrentMeleeID].EMeleeType)
             {
                 case SO_Melee.MeleeUseType.Single:
-                    MeleeHolder.GetComponentInChildren<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
+                    MeleeHolder.transform.GetChild(CurrentMeleeID).GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID]);
+                    MeleeHolder.transform.GetChild(CurrentMeleeID).GetComponent<BoxCollider2D>().enabled = true;
                     break;
                 case SO_Melee.MeleeUseType.Hold:
                     HoldToUse = true;
@@ -260,6 +267,7 @@ public class PlayerWeaponSelect : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            MeleeHolder.transform.GetChild(CurrentMeleeID).GetComponent<BoxCollider2D>().enabled = false;
             HoldToUse = false;
         }
 
@@ -271,8 +279,8 @@ public class PlayerWeaponSelect : MonoBehaviour
 
             if (CurrentTimer > useRate)
             {
-                MeleeHolder.GetComponentInChildren<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID], Melees[CurrentMeleeID].ShootOut);
-
+                MeleeHolder.transform.GetChild(CurrentMeleeID).GetComponent<MeleeWeapons>().MeleeUse(Melees[CurrentMeleeID]);
+                MeleeHolder.transform.GetChild(CurrentMeleeID).GetComponent<BoxCollider2D>().enabled = true;
                 CurrentTimer = 0;
             }
         }
@@ -323,6 +331,11 @@ public class PlayerWeaponSelect : MonoBehaviour
         {
             WeaponCurrentClip[GunID] = Weapons[GunID].ClipSize;
         }
+    }
+
+    private void UpdateUI()
+    {
+
     }
 
     public void UpdateGunInv(SO_Weaponry SOGun)

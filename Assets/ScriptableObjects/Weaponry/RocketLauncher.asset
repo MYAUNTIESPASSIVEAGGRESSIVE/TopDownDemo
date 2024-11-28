@@ -22,11 +22,15 @@ MonoBehaviour:
   TimeToShoot: 0
   TimeToHeat: 0
   TimeToCool: 0
-  ClipSizeOnPickup: {x: 0, y: 0}
+  ClipSizeOnPickup: {x: 15, y: 20}
   MaxDistance: 999
   Overheatable: 0
-  ExplodeOnImpact: 0
+  ExplodeOnImpact: 1
   ClipSize: 1
   MaxReserveSize: 25
-  WeaponPrefab: {fileID: 0}
-  WeaponBulletPrefab: {fileID: 0}
+  BulletSpeed: 5
+  AOERange: 15
+  WeaponAudio:
+  - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
+  WeaponPrefab: {fileID: 8238718486184393240, guid: a86f47744679655409ba554920e92839, type: 3}
+  WeaponBulletPrefab: {fileID: 5987041412131611332, guid: 0c5704fa8b7174f4bacf8d15aca183e6, type: 3}

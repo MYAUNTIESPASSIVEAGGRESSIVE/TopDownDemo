@@ -4,17 +4,42 @@ using UnityEngine;
 
 public class MeleeWeapons : Weapons
 {
-    public void MeleeUse(SO_Melee SOMelee, bool ShootOut)
+    private bool TakingDamage;
+    private float DamageTicker;
+
+    private SO_Melee MeleeSO;
+
+    public void MeleeUse(SO_Melee SOMelee)
     {
-        if (!ShootOut)
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+
+
+        MeleeSO = SOMelee;
+        base.PlayShotAudio(SOMelee.MeleeAudio);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            TakingDamage = true;
+            collision.transform.GetComponent<EnemyStats>().TakeDamage(MeleeSO.Damage, MeleeSO.Gore);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && TakingDamage)
         {
 
         }
-        else
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-
+            TakingDamage = false;
         }
-
-        //base.PlayShotAudio(SOMelee.MeleeAudio);
     }
 }

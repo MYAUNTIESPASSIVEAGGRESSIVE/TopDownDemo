@@ -24,7 +24,7 @@ public class SO_Melee : ScriptableObject
     public float KnockBackRange;
     public int ShotAmount;
     public int UseSpeed;
-    public bool ShootOut;
+    public bool Gore;
 
     [Header("Melee Audio")]
     public AudioClip[] MeleeAudio;

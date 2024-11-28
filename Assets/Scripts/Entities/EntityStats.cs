@@ -8,6 +8,7 @@ public class EntityStats : MonoBehaviour
     protected CircleCollider2D EntityCol;
     protected Animator EntityAnim;
     protected Rigidbody2D EntityRB;
+    //protected GameManager GameManagerScript;
 
     public float MaxHealth;
     protected float CurrentHealth;
@@ -21,6 +22,8 @@ public class EntityStats : MonoBehaviour
         TryGetComponent(out EntityCol);
         TryGetComponent(out EntityAnim);
         TryGetComponent(out EntityRB);
+        //TryGetComponent(out GameManagerScript);
+
 
         CurrentHealth = MaxHealth;
     }

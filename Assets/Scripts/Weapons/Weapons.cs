@@ -25,7 +25,7 @@ public class Weapons : MonoBehaviour
     {
         int MaxClipAmmount = ShootSound.Length;
 
-        audioSource.PlayOneShot(ShootSound[Random.Range(0, MaxClipAmmount)]);
+        audioSource.PlayOneShot(ShootSound[Random.Range(1, MaxClipAmmount)]);
     }
 
     public virtual void PlayReloadAudio(AudioClip ReloadSound)

@@ -28,5 +28,8 @@ MonoBehaviour:
   ExplodeOnImpact: 0
   ClipSize: 32
   MaxReserveSize: 200
+  WeaponAudio:
+  - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
+  - {fileID: 8300000, guid: 3f8f7868b4e1685459eed1763da9a1ee, type: 3}
   WeaponPrefab: {fileID: 8063079605141001636, guid: 1c94bd6d6bea8c94f8a84afd2a48affc, type: 3}
   WeaponBulletPrefab: {fileID: 6927761944252849097, guid: dcb227b00f766d04ab20377f00a7622d, type: 3}

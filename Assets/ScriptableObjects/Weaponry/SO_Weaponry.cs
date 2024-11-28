@@ -42,7 +42,13 @@ public class SO_Weaponry : ScriptableObject
     public bool ExplodeOnImpact;
     public int ClipSize;
     public int MaxReserveSize;
+    public float BulletSpeed;
 
+    [Range(1,20)]
+    public float AOERange;
+
+    [Header("Weapon Audio")]
+    public AudioClip[] WeaponAudio;
 
     [Header("Weapon Prefab")]
     public GameObject WeaponPrefab;

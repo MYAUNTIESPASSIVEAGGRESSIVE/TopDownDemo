@@ -11,6 +11,7 @@ public class EnemyStats : EntityStats
     public bool Converted;
 
     public GameObject Target;
+    //public GameManager GameManager;
 
     public AudioClip[] EnemyHitSounds;
     public AudioSource EnemySource;
@@ -67,6 +68,8 @@ public class EnemyStats : EntityStats
         base.TakeDamage(Dmg, GoryDeath);
 
         EnemySource.PlayOneShot(EnemyHitSounds[Random.Range(0, EnemyHitSounds.Length)]);
+
+        //GameManagerScript.PlayerPoints = GameManagerScript.PlayerPoints + Random.Range(10, 20);
     }
 
     protected override void EntityDeath(bool GoryDeath)
@@ -76,6 +79,15 @@ public class EnemyStats : EntityStats
         CurrentHealth = 0;
 
         IsDead = true;
+
+        //GameManagerScript.PlayerPoints = GameManagerScript.PlayerPoints + Random.Range(100, 175);
+
+        if (GoryDeath)
+        {
+
+
+            gameObject.SetActive(false);
+        }
     }
 
     public void EnemyConversion()
