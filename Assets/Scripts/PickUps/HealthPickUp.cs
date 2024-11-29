@@ -23,15 +23,15 @@ public class HealthPickUp : MonoBehaviour
             }
 
             gameObject.SetActive(false);
-
-            StartCoroutine(RespawnHealthDrop());
         }
     }
 
+    /*
     private IEnumerator RespawnHealthDrop()
     {
         yield return new WaitForSecondsRealtime(RespawnTime);
 
         gameObject.SetActive(true);
     }
+    */
 }

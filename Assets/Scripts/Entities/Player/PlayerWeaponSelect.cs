@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class PlayerWeaponSelect : MonoBehaviour
 {
@@ -17,6 +16,8 @@ public class PlayerWeaponSelect : MonoBehaviour
     public PlayerControl PlayerScript;
     public float GameMaxShootDistance;
     public LayerMask HittableLayer;
+    public GameObject AmmoHolder;
+
 
     private Weapons WeaponsScript;
 
@@ -123,6 +124,10 @@ public class PlayerWeaponSelect : MonoBehaviour
             }
         }
 
+        if (Weapons[CurrentWeaponID].UsesFuel)
+        {
+            FuelSlider.value = WeaponCurrentClip[CurrentWeaponID];
+        }
 
         HandleGunReloading(CurrentWeaponID, false);
 
@@ -179,12 +184,14 @@ public class PlayerWeaponSelect : MonoBehaviour
 
             if (Weapons[CurrentWeaponID].Overheatable == true)
             {
+                OverheatSlider.value = CurrentHeater;
+
                 CurrentHeater += Time.deltaTime;
                 if (CurrentHeater > Weapons[CurrentWeaponID].TimeToHeat)
                 {
                     Overheated = true;
-                    StartCoroutine(CoolDownToShoot(Weapons[CurrentWeaponID].TimeToCool));
                     HoldToShoot = false;
+                    StartCoroutine(CoolDownToShoot(Weapons[CurrentWeaponID].TimeToCool));
                 }
             }
         }
@@ -193,10 +200,6 @@ public class PlayerWeaponSelect : MonoBehaviour
 
     private void GunShooting()
     {
-        if (Weapons[CurrentWeaponID].Overheatable)
-        {
-
-        }
 
 
         switch (Weapons[CurrentWeaponID].EUseType)
@@ -220,6 +223,7 @@ public class PlayerWeaponSelect : MonoBehaviour
         Overheated = false;
         CurrentHeater = 0;
     }
+
     private void ProjectileShooting()
     {
         switch (Weapons[CurrentWeaponID].EUseType)
@@ -234,19 +238,16 @@ public class PlayerWeaponSelect : MonoBehaviour
         }
     }
 
-    private void GunRayShot()
-    {
-
-    }
-
     private void ProjShooter()
     {
         for (int i = 0; i < Weapons[CurrentWeaponID].BulletsPerShot; ++i)
         {
+
             GameObject Bullet = Instantiate(Weapons[CurrentWeaponID].WeaponBulletPrefab,
                 GunHolder.transform.position, Quaternion.identity);
 
             Bullet.GetComponent<ProjectileBullet>().SOWeapon = Weapons[CurrentWeaponID];
+
         }
 
     }
@@ -334,7 +335,6 @@ public class PlayerWeaponSelect : MonoBehaviour
 
             if (WeaponAmmo[NextID] >= 0)
             {
-                //I actually have that gun!!!
                 CurrentWeaponID = NextID;
                 Holder.transform.GetChild(CurrentID).gameObject.SetActive(false);
                 Holder.transform.GetChild(NextID).gameObject.SetActive(true);
@@ -365,21 +365,28 @@ public class PlayerWeaponSelect : MonoBehaviour
             FuelSlider.gameObject.SetActive(true);
 
             FuelSlider.value = WeaponCurrentClip[CurrentWeaponID];
+            FuelSlider.maxValue = Weapons[CurrentWeaponID].ClipSize;
+
+            AmmoHolder.SetActive(false);
         }
         else
         {
             AmmoText.text = WeaponCurrentClip[ID] + "/" + WeaponAmmo[ID];
             WeaponName.text = Weapons[ID].WeaponName;
             FuelSlider.gameObject.SetActive(false);
+            AmmoHolder.SetActive(true);
         }
 
         if (Weapons[CurrentWeaponID].Overheatable)
         {
             OverheatSlider.maxValue = Weapons[CurrentWeaponID].TimeToHeat;
             OverheatSlider.gameObject.SetActive(true);
-            
+
         }
-        else OverheatSlider.gameObject.SetActive(false);
+        else
+        {
+            OverheatSlider.gameObject.SetActive(false);
+        }
     }
 
     public void UpdateGunInv(SO_Weaponry SOGun)

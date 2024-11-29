@@ -8,10 +8,14 @@ public class PlayerControl : MonoBehaviour
     [Header("References")]
     public Rigidbody2D PlrRB;
     public PlayerWeaponSelect PlayerWeapons;
+    public Canvas PauseMenu;
+    public Canvas PlayerUI;
 
     [Header("Movement Variables")]
     public float MoveSpeed = 5f;
+    private float ActiveMoveSpeed;
     public float DashDistance = 7f;
+    public bool PlayerDead;
 
     private float HozMove;
     private float VertMove;
@@ -20,15 +24,15 @@ public class PlayerControl : MonoBehaviour
     private Vector3 aimPoint;
     public Vector3 direction;
 
-    private bool CanDash = true;
-    private float currentCoolTime;
-    private float currentDashTime;
-    private float startCashTime = 1f;
+    private float dashLength = 0.5f, DashCooldown = 1f;
+    private float DashCounter;
+    private float DashCoolCounter;
+    private bool Dashing;
 
     void Start()
     {
         PlrRB = GetComponent<Rigidbody2D>();
-        CanDash = true;
+        ActiveMoveSpeed = MoveSpeed;
     }
 
     void Update()
@@ -39,13 +43,54 @@ public class PlayerControl : MonoBehaviour
         CharacterMove();
 
         GunPointToMouse();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
+
+        if (PlayerDead)
+        {
+            PlayerUI.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+
+            if(DashCoolCounter <= 0 && DashCounter <= 0)
+            {
+                ActiveMoveSpeed = DashDistance;
+                DashCounter = dashLength;
+                Dashing = true;
+            }
+
+        }
+
+        if (Dashing)
+        {
+            if (DashCounter > 0)
+            {
+                DashCounter -= Time.deltaTime;
+
+                if (DashCounter <= 0)
+                {
+                    ActiveMoveSpeed = MoveSpeed;
+                    DashCoolCounter = DashCooldown;
+                }
+            }
+
+            if (DashCoolCounter > 0)
+            {
+                DashCoolCounter -= Time.deltaTime;
+            }
+        }
     }
 
     private void CharacterMove()
     {
         var PlrMovementDir = new Vector2(HozMove, VertMove).normalized;
 
-        PlrRB.velocity = new Vector2(PlrMovementDir.x * MoveSpeed, PlrMovementDir.y * MoveSpeed);
+        PlrRB.velocity = new Vector2(PlrMovementDir.x * MoveSpeed, PlrMovementDir.y * ActiveMoveSpeed);
     }
 
     private void GunPointToMouse()
@@ -57,34 +102,12 @@ public class PlayerControl : MonoBehaviour
         ObjRot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
         PlrRB.rotation = ObjRot;
-
-        if (CanDash && Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(DashAbility(direction));
-        }
     }
 
-    private IEnumerator DashAbility(Vector2 DashDirection)
+    private void PauseGame()
     {
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        CanDash = false;
-        currentCoolTime = startCashTime;
-
-        while (currentDashTime > 0f)
-        {
-            Debug.Log("Try the Bananas Darling They're Dashing");
-
-            currentDashTime -= Time.deltaTime;
-
-            PlrRB.velocity = DashDirection * DashDistance;
-
-            yield return null;
-        }
-
-        PlrRB.velocity = new Vector2(0f, 0f);
-
-        gameObject.GetComponent<Collider2D>().enabled = true;
-        CanDash = true;
-
+        Time.timeScale = 0;
+        PlayerUI.gameObject.SetActive(false);
+        PauseMenu.gameObject.SetActive(true);
     }
 }

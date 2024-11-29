@@ -18,6 +18,7 @@ MonoBehaviour:
   WeaponID: 4
   EWeaponType: 0
   EUseType: 1
+  EDebuffType: 0
   FireRate: 0.2
   TimeToShoot: 0
   TimeToHeat: 0
@@ -25,13 +26,17 @@ MonoBehaviour:
   UsesFuel: 1
   ClipSizeOnPickup: {x: 200, y: 200}
   MaxDistance: 0
+  SpeedToDestroy: 1
   BulletsPerShot: 1
+  AnglePerShot: 0
   Overheatable: 0
   ExplodeOnImpact: 0
   ClipSize: 200
   MaxReserveSize: 0
   BulletSpeed: 0.1
+  SticksToGun: 1
   AOERange: 1
-  WeaponAudio: []
+  WeaponAudio:
+  - {fileID: 8300000, guid: 7239822ec8058af4a82711a2b7ae550a, type: 3}
   WeaponPrefab: {fileID: 577394570676574891, guid: 6bb60cc0e9a53084bafcd11e55ff84a1, type: 3}
   WeaponBulletPrefab: {fileID: 2410080368124092132, guid: cb9251e0902d46f429a9b068dfcbc27d, type: 3}

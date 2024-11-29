@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class EntityStats : MonoBehaviour
 {
-    protected CircleCollider2D EntityCol;
-    protected Animator EntityAnim;
-    protected Rigidbody2D EntityRB;
     protected ParticleSystem GoreDeathParticle;
-    //protected GameManager GameManagerScript;
+    protected GameManager GameManagerScript;
 
     public float MaxHealth;
     public float CurrentHealth;
@@ -20,11 +17,7 @@ public class EntityStats : MonoBehaviour
 
     protected virtual void Start()
     {
-        TryGetComponent(out EntityCol);
-        TryGetComponent(out EntityAnim);
-        TryGetComponent(out EntityRB);
         TryGetComponent(out GoreDeathParticle);
-        //TryGetComponent(out GameManagerScript);
 
 
         CurrentHealth = MaxHealth;

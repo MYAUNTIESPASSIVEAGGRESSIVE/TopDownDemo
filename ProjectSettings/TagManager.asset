@@ -8,6 +8,7 @@ TagManager:
   - GunWeapon
   - MeleeWeapon
   - ProjectileWeapon
+  - GameManager
   layers:
   - Default
   - TransparentFX

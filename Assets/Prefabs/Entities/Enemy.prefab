@@ -264,9 +264,13 @@ MonoBehaviour:
   EnemyAttackRange: 1
   EnemyDetectionRange: 1
   Converted: 0
+  OnFire: 0
+  FireDamage: 0
+  Poisoned: 0
+  PoisonDamage: 0
   Target: {fileID: 0}
   EnemyHitSounds:
-  - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}
+  - {fileID: 8300000, guid: 532e37fc3977d4642833d023a81e5865, type: 3}
   EnemySource: {fileID: 4067776548737589261}
 --- !u!50 &3815393942416093439
 Rigidbody2D:

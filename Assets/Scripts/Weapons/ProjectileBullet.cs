@@ -9,6 +9,8 @@ public class ProjectileBullet : Weapons
 
     private Rigidbody2D BulletRB;
 
+    private bool SlowDown;
+
     private void Start()
     {
         BulletRB = GetComponent<Rigidbody2D>();
@@ -23,12 +25,10 @@ public class ProjectileBullet : Weapons
         transform.rotation = Quaternion.Euler(0, 0, rotation + 90);
 
         StartCoroutine(DestroyTimer());
-
     }
 
     public override void PlayShotAudio(AudioClip[] ShootSound)
     {
-
         ShootSound = SOWeapon.WeaponAudio;
 
         base.PlayShotAudio(ShootSound);
@@ -73,12 +73,54 @@ public class ProjectileBullet : Weapons
                 collision.transform.GetComponent<EnemyStats>().TakeDamage(SOWeapon.Damage, false);
                 Destroy(gameObject);
             }
+
+            switch (SOWeapon.EDebuffType)
+            {
+                case SO_Weaponry.DebuffType.Fire:
+
+                    break;
+                case SO_Weaponry.DebuffType.Poison:
+
+                    break;
+            }
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+
+        if(collision.transform.CompareTag("Enemy"))
+        {
+
+            switch (SOWeapon.EDebuffType)
+            {
+                case SO_Weaponry.DebuffType.SlowDown:
+                    SlowDown = true;
+                    break;
+                case SO_Weaponry.DebuffType.Fire:
+
+                    break;
+                case SO_Weaponry.DebuffType.Poison:
+
+                    break;
+            }
+
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(SlowDown)
+        {
+            SlowDown = false;
+        }
+    }
+
+
+
     private IEnumerator DestroyTimer()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(SOWeapon.SpeedToDestroy);
         Destroy(gameObject);
     }
 }

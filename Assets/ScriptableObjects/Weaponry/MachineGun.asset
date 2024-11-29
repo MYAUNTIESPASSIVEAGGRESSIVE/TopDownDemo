@@ -18,6 +18,7 @@ MonoBehaviour:
   WeaponID: 0
   EWeaponType: 0
   EUseType: 1
+  EDebuffType: 0
   FireRate: 0.3
   TimeToShoot: 0
   TimeToHeat: 0
@@ -25,12 +26,15 @@ MonoBehaviour:
   UsesFuel: 0
   ClipSizeOnPickup: {x: 32, y: 200}
   MaxDistance: 999
+  SpeedToDestroy: 3
   BulletsPerShot: 1
+  AnglePerShot: 0
   Overheatable: 0
   ExplodeOnImpact: 0
   ClipSize: 32
   MaxReserveSize: 200
   BulletSpeed: 12
+  SticksToGun: 0
   AOERange: 1
   WeaponAudio:
   - {fileID: 8300000, guid: eed6255c15a895f43945d7eb7f79a15b, type: 3}

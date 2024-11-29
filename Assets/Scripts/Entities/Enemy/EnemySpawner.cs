@@ -9,7 +9,17 @@ public class EnemySpawner : MonoBehaviour
     public float SpawnTime;
     private float CurSpawnTime;
 
+    private int NodeAmount;
+
     public List<GameObject> SpawnPoints = new List<GameObject>();
+
+    private void Start()
+    {
+        foreach(Transform t in transform)
+        {
+            SpawnPoints.Add(t.gameObject);
+        }
+    }
 
     private void Update()
     {

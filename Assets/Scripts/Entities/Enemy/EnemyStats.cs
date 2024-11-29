@@ -9,16 +9,16 @@ public class EnemyStats : EntityStats
     public float EnemyAttackRange = 1f;
     public float EnemyDetectionRange = 10f;
     public bool Converted;
+    public bool OnFire;
+    public int FireDamage;
+    public bool Poisoned;
+    public int PoisonDamage;
+
 
     public GameObject Target;
-    //public GameManager GameManager;
 
     public AudioClip[] EnemyHitSounds;
     public AudioSource EnemySource;
-    //public GameObject EnemyWeapon;
-
-    private float distancetoTarget;
-    //private bool attackingTarget;
 
     protected override void Start()
     {
@@ -32,6 +32,24 @@ public class EnemyStats : EntityStats
 
         //attackingTarget = false;
     }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (OnFire)
+        {
+            float tick = 0;
+            float firetime = 0.1f;
+
+            tick += Time.deltaTime;
+            if(tick > firetime)
+            {
+                TakeDamage(FireDamage, false);
+            }
+        }
+    }
+
 
     private void FixedUpdate()
     {
@@ -71,7 +89,7 @@ public class EnemyStats : EntityStats
 
         EnemySource.PlayOneShot(EnemyHitSounds[Random.Range(0, EnemyHitSounds.Length)]);
 
-        //GameManagerScript.PlayerPoints = GameManagerScript.PlayerPoints + Random.Range(10, 20);
+        GameManager.Instance.PlayerPoints += Random.Range(100, 150);
     }
 
     protected override void EntityDeath(bool GoryDeath)
@@ -82,9 +100,7 @@ public class EnemyStats : EntityStats
 
         IsDead = true;
 
-        //GameManagerScript.PlayerPoints = GameManagerScript.PlayerPoints + Random.Range(100, 175);
-
-        Destroy(gameObject);
+        GameManager.Instance.PlayerPoints += Random.Range(100, 150);
 
         if (GoryDeath)
         {

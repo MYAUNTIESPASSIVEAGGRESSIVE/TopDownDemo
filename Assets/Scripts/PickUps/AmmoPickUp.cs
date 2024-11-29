@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class AmmoPickUp : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-    }
+        if (collision.transform.CompareTag("Player"))
+        {
+            PlayerWeaponSelect WeaponSelect = collision.transform.GetComponent<PlayerWeaponSelect>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if(WeaponSelect.CurrentWeaponID > 0)
+            {
+                WeaponSelect.WeaponAmmo[WeaponSelect.CurrentWeaponID] +=
+                    (int)Random.Range(WeaponSelect.Weapons[WeaponSelect.CurrentWeaponID].ClipSizeOnPickup.x,
+                    WeaponSelect.Weapons[WeaponSelect.CurrentWeaponID].ClipSizeOnPickup.y);
+            }
+        }
     }
 }
